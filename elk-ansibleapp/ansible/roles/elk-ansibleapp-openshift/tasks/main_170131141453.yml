@@ -1,0 +1,176 @@
+
+- oso_service:
+    service_name: elasticsearch
+    project_name: elk-ansibleapp
+    labels:
+      app: elk-ansibleapp
+      service: elasticsearch
+    ports:
+    - name: port-9200
+      port: 9200
+      targetPort: 9200
+    - name: port-9300
+      port: 9300
+      targetPort: 9300
+    selector:
+      app: elk-ansibleapp
+      service: elasticsearch
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_service:
+    service_name: logstash
+    project_name: elk-ansibleapp
+    labels:
+      app: elk-ansibleapp
+      service: logstash
+    ports:
+    - name: port-5044
+      port: 5044
+      targetPort: 5044
+    selector:
+      app: elk-ansibleapp
+      service: logstash
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_service:
+    service_name: kibana
+    project_name: elk-ansibleapp
+    labels:
+      app: elk-ansibleapp
+      service: kibana
+    ports:
+    - name: port-5601
+      port: 5601
+      targetPort: 5601
+    selector:
+      app: elk-ansibleapp
+      service: kibana
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: elk-ansibleapp
+    service_port: port-9200
+    labels:
+      app: elk-ansibleapp
+      service: elasticsearch
+    route_name: elasticsearch-9200
+    replace: true
+    service_name: elasticsearch
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: elk-ansibleapp
+    service_port: port-5044
+    labels:
+      app: elk-ansibleapp
+      service: logstash
+    route_name: logstash-5044
+    replace: true
+    service_name: logstash
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: elk-ansibleapp
+    service_port: port-5601
+    labels:
+      app: elk-ansibleapp
+      service: kibana
+    route_name: kibana-5601
+    replace: true
+    service_name: kibana
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: elk-ansibleapp
+    labels:
+      app: elk-ansibleapp
+      service: elasticsearch
+    deployment_name: elasticsearch
+    containers:
+    - securityContext: {}
+      name: elasticsearch
+      image: docker.io/fabianvf/elk-ansibleapp-elasticsearch:None
+      env:
+        ES_JAVA_OPTS: -Xms2g -Xmx2g
+      workingDir: /usr/share/elasticsearch/bin
+      args:
+      - ./elasticsearch
+      ports:
+      - 9200
+      - 9300
+    replace: true
+    replicas: '{{ replicas }}'
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: elk-ansibleapp
+    labels:
+      app: elk-ansibleapp
+      service: logstash
+    deployment_name: logstash
+    containers:
+    - securityContext: {}
+      name: logstash
+      image: docker.io/fabianvf/elk-ansibleapp-logstash:None
+      env:
+        JAVACMD: /usr/bin/java
+      workingDir: /opt/logstash/bin
+      args:
+      - ./logstash
+      - agent
+      - -f
+      - /etc/logstash/conf.d
+      command:
+      - /usr/bin/entrypoint.sh
+      ports:
+      - 5044
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: elk-ansibleapp
+    labels:
+      app: elk-ansibleapp
+      service: kibana
+    deployment_name: kibana
+    containers:
+    - securityContext: {}
+      name: kibana
+      workingDir: /usr/share/kibana/bin
+      args:
+      - ./kibana
+      image: docker.io/fabianvf/elk-ansibleapp-kibana:None
+      ports:
+      - 5601
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug
