@@ -1,0 +1,46 @@
+version: "2"
+services:
+  etherpad:
+    image: centos:7
+    ports:
+      - "9001:9001"
+    expose:
+      - 9001
+    command: ['/opt/etherpad-lite/bin/run.sh']
+    user: etherpad-lite
+    depends_on:
+      - mariadb
+    links:
+      - mariadb
+    dev_overrides:
+      environment:
+        - "DEBUG=1"
+  nginx:
+    image: centos:7
+    depends_on:
+      - etherpad
+    links:
+      - etherpad
+    expose:
+      - 80
+    command: ['nginx', '-g', 'daemon off;']
+    dev_overrides:
+      environment:
+        - "DEBUG=1"
+  mariadb:
+    image: centos:7
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    command: ['mysqld']
+    user: mysql
+    dev_overrides:
+      environment:
+        - "DEBUG=1"
+
+registries: {}
+  # Add optional registries used for deployment. For example:
+  #  google:
+  #    url: https://gcr.io
+  #    namespace: my-cool-project-xxxxxx
