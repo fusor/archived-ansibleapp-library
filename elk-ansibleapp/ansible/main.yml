@@ -32,7 +32,7 @@
   # Set create_example to 'true', if sameple data should be loaded
   #  into apache_elastic_example index. 
   - role: create_example
-    create_example: false
+    create_example: true
  
 - hosts: kibana
   roles:

@@ -110,7 +110,7 @@
     containers:
     - securityContext: {}
       name: elasticsearch
-      image: docker.io/fabianvf/elk-ansibleapp-elasticsearch:20170131191113
+      image: docker.io/fabianvf/elk-ansibleapp-elasticsearch:20170131194913
       env:
         ES_JAVA_OPTS: -Xms2g -Xmx2g
       workingDir: /usr/share/elasticsearch/bin
@@ -120,7 +120,7 @@
       - 9200
       - 9300
     replace: true
-    replicas: '{{ replicas }}'
+    replicas: '{{ replicas if replicas is defined else 3 }}'
   register: output
 
 - debug: var=output
@@ -135,7 +135,7 @@
     containers:
     - securityContext: {}
       name: logstash
-      image: docker.io/fabianvf/elk-ansibleapp-logstash:20170131191113
+      image: docker.io/fabianvf/elk-ansibleapp-logstash:20170131194913
       env:
         JAVACMD: /usr/bin/java
       workingDir: /opt/logstash/bin
@@ -166,7 +166,7 @@
       workingDir: /usr/share/kibana/bin
       args:
       - ./kibana
-      image: docker.io/fabianvf/elk-ansibleapp-kibana:20170131191113
+      image: docker.io/fabianvf/elk-ansibleapp-kibana:20170131194913
       ports:
       - 5601
     replace: true
