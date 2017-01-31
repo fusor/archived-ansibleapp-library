@@ -1,4 +1,4 @@
-FROM fusordevel/ansibleapp-base
+FROM ansibleapp/ansibleapp-base
 
 MAINTAINER Dylan Murray <dymurray@redhat.com>
 

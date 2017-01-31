@@ -14,9 +14,9 @@ An AnsibleApp for deploying the ELK stack (Elasticsearch, Logstash, Kibana).
 * TODO
 
 ## Running the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" fabianvf/elk-ansibleapp provision`
+`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" ansibleapp/elk-ansibleapp provision`
 ## Tearing down the application
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" fabianvf/elk-ansibleapp deprovision`
+`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" ansibleapp/elk-ansibleapp deprovision`
 
 
 TODO:  
