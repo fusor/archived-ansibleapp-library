@@ -3,4 +3,4 @@
   connection: local
   tasks:
   - name: Delete elk-stack-container project
-    command: oc delete project elk-stack-container
+    command: oc delete project elk-ansibleapp
