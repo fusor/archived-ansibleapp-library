@@ -1,7 +1,7 @@
 galaxy_info:
-  author: Your name
-  description: Describe your awesome application here.
-  company: Your company
+  author: Dylan Murray
+  description: Etherpad application.
+  company: Red Hat Inc.
 
   # If the issue tracker for your role is not on GitHub, uncomment the
   # next line and provide a value
