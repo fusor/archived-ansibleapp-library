@@ -110,7 +110,7 @@
     containers:
     - securityContext: {}
       name: elasticsearch
-      image: docker.io/fabianvf/elk-ansibleapp-elasticsearch:20170131194913
+      image: docker.io/ansibleapp/elk-ansibleapp-elasticsearch:latest
       env:
         ES_JAVA_OPTS: -Xms2g -Xmx2g
       workingDir: /usr/share/elasticsearch/bin
@@ -135,7 +135,7 @@
     containers:
     - securityContext: {}
       name: logstash
-      image: docker.io/fabianvf/elk-ansibleapp-logstash:20170131194913
+      image: docker.io/ansibleapp/elk-ansibleapp-logstash:latest
       env:
         JAVACMD: /usr/bin/java
       workingDir: /opt/logstash/bin
@@ -166,7 +166,7 @@
       workingDir: /usr/share/kibana/bin
       args:
       - ./kibana
-      image: docker.io/fabianvf/elk-ansibleapp-kibana:20170131194913
+      image: docker.io/ansibleapp/elk-ansibleapp-kibana:latest
       ports:
       - 5601
     replace: true

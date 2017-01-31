@@ -52,6 +52,6 @@ services:
     command: [./kibana]
 
 registries:
-  fabian:
+  ansibleapp:
     url: docker.io
-    namespace: fabianvf
+    namespace: ansibleapp
