@@ -2,8 +2,6 @@ version: "2"
 services:
   etherpad:
     image: centos:7
-    ports:
-      - "9001:9001"
     expose:
       - 9001
     command: ['/opt/etherpad-lite/bin/run.sh']
@@ -29,8 +27,6 @@ services:
         - "DEBUG=1"
   mariadb:
     image: centos:7
-    ports:
-      - "3306:3306"
     expose:
       - 3306
     command: ['mysqld']
