@@ -9,8 +9,11 @@ install:
   - (cd ansible-container && python ./setup.py install)
 
 script:
-  - for app in `ls | grep '\-ansibleapp'` ; do 
+  - export APPS=`git diff --name-only origin/master | awk -F '/' '{print $1}' | grep '\-ansibleapp'`
+  - for app in $APPS ; do
     ( cd $app ; ansible-container build ) ; done
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
-      ansible-container push --push-to docker.io/ansibleapp --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
-    fi
+      for app in $APPS ; do
+        (cd $app ; ansible-container push --push-to docker.io/ansibleapp --username $DOCKER_USERNAME --password $DOCKER_PASSWORD)
+      ; done
+    ; fi
