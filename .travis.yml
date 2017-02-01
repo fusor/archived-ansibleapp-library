@@ -17,3 +17,4 @@ script:
         (cd $app ; ansible-container push --push-to docker.io/ansibleapp --username $DOCKER_USERNAME --password $DOCKER_PASSWORD)
       ; done
     ; fi
+  - docker images
