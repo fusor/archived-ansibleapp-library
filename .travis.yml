@@ -9,7 +9,11 @@ install:
   - (cd ansible-container && python ./setup.py install)
 
 script:
-  - export APPS=`git diff --name-only origin/master | awk -F '/' '{print $1}' | grep '\-ansibleapp'`
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
+      export APPS=`ls | grep '\-ansibleapp'`
+    ; else
+      export APPS=`git diff --name-only origin/master | awk -F '/' '{print $1}' | grep '\-ansibleapp'`
+    ; fi
   - for app in $APPS ; do
     ( cd $app ; ansible-container build ) ; done
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
