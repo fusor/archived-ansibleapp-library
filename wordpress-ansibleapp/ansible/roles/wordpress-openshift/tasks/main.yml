@@ -1,0 +1,108 @@
+
+- oso_service:
+    service_name: db
+    project_name: wordpress
+    labels:
+      app: wordpress
+      service: db
+    ports:
+    - name: port-3306
+      port: 3306
+      targetPort: 3306
+    selector:
+      app: wordpress
+      service: db
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_service:
+    service_name: wordpress
+    project_name: wordpress
+    labels:
+      app: wordpress
+      service: wordpress
+    ports:
+    - name: port-8080
+      port: 8080
+      targetPort: 80
+    selector:
+      app: wordpress
+      service: wordpress
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: wordpress
+    service_port: port-3306
+    labels:
+      app: wordpress
+      service: db
+    route_name: db-3306
+    replace: true
+    service_name: db
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: wordpress
+    service_port: port-8080
+    labels:
+      app: wordpress
+      service: wordpress
+    route_name: wordpress-8080
+    replace: true
+    service_name: wordpress
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: wordpress
+    labels:
+      app: wordpress
+      service: db
+    deployment_name: db
+    containers:
+    - securityContext: {}
+      name: db
+      image: ansibleapp/wordpress-db
+      args:
+      - /usr/bin/mysqld_safe
+      ports:
+      - 3306
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: wordpress
+    labels:
+      app: wordpress
+      service: wordpress
+    deployment_name: wordpress
+    containers:
+    - securityContext: {}
+      name: wordpress
+      image: ansibleapp/wordpress-wordpress
+      args:
+      - bash
+      - -c
+      - bash /tmp/a.sh ; usr/sbin/apachectl -D FOREGROUND
+      ports:
+      - 80
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug

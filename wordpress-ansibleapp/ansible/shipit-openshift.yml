@@ -1,0 +1,7 @@
+- name: Deploy wordpress to  openshift
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  roles:
+  - role: wordpress-openshift
+    playbook_debug: false

@@ -1,0 +1,20 @@
+{
+    "kind": "Route", 
+    "spec": {
+        "to": {
+            "kind": "Service", 
+            "name": "db"
+        }, 
+        "port": {
+            "targetPort": "port-3306"
+        }
+    }, 
+    "apiVersion": "v1", 
+    "metadata": {
+        "labels": {
+            "app": "wordpress", 
+            "service": "db"
+        }, 
+        "name": "db-3306"
+    }
+}

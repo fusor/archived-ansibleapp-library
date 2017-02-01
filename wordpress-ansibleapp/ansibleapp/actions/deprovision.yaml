@@ -1,0 +1,6 @@
+- hosts: localhost
+  gather_facts: false
+  connection: local
+  tasks:
+  - name: Delete wordpress playbook
+    command: oc delete project wordpress
