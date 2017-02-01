@@ -1,0 +1,20 @@
+{
+    "kind": "Route", 
+    "spec": {
+        "to": {
+            "kind": "Service", 
+            "name": "wordpress"
+        }, 
+        "port": {
+            "targetPort": "port-8080"
+        }
+    }, 
+    "apiVersion": "v1", 
+    "metadata": {
+        "labels": {
+            "app": "wordpress", 
+            "service": "wordpress"
+        }, 
+        "name": "wordpress-8080"
+    }
+}
