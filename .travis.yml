@@ -1,0 +1,16 @@
+sudo: required
+
+services:
+  - docker
+
+install:
+  - pip install --upgrade setuptools
+  - git clone https://github.com/ansible/ansible-container.git
+  - (cd ansible-container && python ./setup.py install)
+
+script:
+  - for app in `ls | grep '\-ansibleapp'` ; do 
+    ( cd $app ; ansible-container build ) ; done
+  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
+      ansible-container push --push-to docker.io/ansibleapp --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+    fi
