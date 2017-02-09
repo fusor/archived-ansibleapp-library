@@ -9,10 +9,10 @@ RUN yum install -y net-tools bind-utils wget epel-release
 RUN yum install -y ansible
 RUN echo "localhost ansible_connection=local" >> /etc/ansible/hosts
 
-RUN mkdir /ansibleapp
+RUN mkdir /usr/local/ansibleapp
 
 COPY oc-login.sh /usr/bin
-COPY entrypoint.sh /ansibleapp
+COPY entrypoint.sh /usr/local/ansibleapp
 
-ENTRYPOINT ["/ansibleapp/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/ansibleapp/entrypoint.sh"]
 CMD ["provision"]
