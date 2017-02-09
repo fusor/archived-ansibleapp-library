@@ -1,7 +1,7 @@
 #!/bin/bash
 ANSIBLEAPP_ACTION=$1
 
-playbooks=/ansibleapp/actions
+playbooks=/usr/local/ansibleapp/actions
 
 oc-login.sh
 

@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build -t fusordevel/ansibleapp-base .
+docker build -t ansibleapp/ansibleapp-base .
