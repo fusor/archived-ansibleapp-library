@@ -3,5 +3,5 @@
   gather_facts: false
   connection: local
   roles:
-  - role: /usr/local/ansible/roles/elk-ansibleapp-openshift
+  - role: elk-ansibleapp-openshift
     playbook_debug: false
