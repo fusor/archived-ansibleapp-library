@@ -8,7 +8,7 @@ RUN cd /tmp && tar zvxf ./oc.tar.gz -C /usr/bin --strip-components=1
 RUN yum install -y net-tools bind-utils wget epel-release
 RUN yum install -y ansible
 RUN echo "localhost ansible_connection=local" >> /etc/ansible/hosts
-RUN sed -i 's/#roles_path.*$/roles_path = \/opt\/ansible\/roles/' /etc/ansible/ansible.cfg
+RUN sed -i 's|#roles_path.*$|roles_path = /opt/ansible/roles|' /etc/ansible/ansible.cfg
 
 RUN mkdir /opt/ansibleapp
 
