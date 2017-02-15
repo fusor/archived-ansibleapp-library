@@ -3,5 +3,5 @@
   gather_facts: false
   connection: local
   roles:
-  - role: /usr/local/ansible/roles/wordpress-openshift
+  - role: wordpress-openshift
     playbook_debug: false

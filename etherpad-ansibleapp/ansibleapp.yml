@@ -1,0 +1,20 @@
+id: f32de3bc-3225-429a-b23b-cef47ca1d25b
+name: ansibleapp/etherpad-ansibleapp
+description: Note taking web application
+bindable: true
+async: "optional"
+answers:
+  - name: hostport
+    description: The host TCP port as the external endpoint
+    default: 9001
+  - name: db_user
+    description: Database User
+  - name: db_pass
+    description: Database Password
+  - name: db_name
+    description: Database Name
+  - name: db_host
+    description: Database service hostname/ip
+    default: mariadb
+  - name: db_port
+    description: Database service port
