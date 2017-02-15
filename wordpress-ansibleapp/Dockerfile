@@ -1,3 +1,5 @@
+# TODO: Need to regenerate this file using ansibleapp tooling
+# and add spec to be encoded and stamped as label
 FROM ansibleapp/ansibleapp-base
 # MAINTAINER {{ $MAINTAINER }}
 
