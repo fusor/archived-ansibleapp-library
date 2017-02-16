@@ -1,0 +1,21 @@
+id: 4240b39c-116b-40b9-9b77-2d30e229f0dc
+name: ansibleapp/wordpress-ansibleapp
+description: Wordpress web platform
+bindable: false
+async: "unsupported"
+parameters:
+  - name: hostport
+    description: The host TCP port as the external endpoint
+    default: 8888
+  - name: db_user
+    description: Database User
+  - name: db_pass
+    description: Database Password
+  - name: db_name
+    description: Database Name
+  - name: db_host
+    description: Database service host
+    default: mariadb
+  - name: db_port
+    description: Database service port
+    default: 3306
