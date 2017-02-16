@@ -15,3 +15,12 @@ c2VydmljZSBob3N0bmFtZS9pcAogICAgZGVmYXVsdDogbWFyaWFkYgogIC0gbmFtZTogZGJfcG9y\
 dAogICAgZGVzY3JpcHRpb246IERhdGFiYXNlIHNlcnZpY2UgcG9ydAo="
 ADD ansible /opt/ansible
 ADD ansibleapp /opt/ansibleapp
+
+RUN useradd -u 1001 -r -g 0 -M -b /opt/ansibleapp -s /sbin/nologin -c "ansibleapp user" ansibleapp
+
+# Fixup all the directories under the account so they are group writable
+# to the 'root' group (gid=0) so they can be updated if necessary, such
+# as would occur if using 'oc rsync' to copy files into a container.
+
+RUN chown -R 1001:0 /opt/{ansible,ansibleapp}
+USER 1001

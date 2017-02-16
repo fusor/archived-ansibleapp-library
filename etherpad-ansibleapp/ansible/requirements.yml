@@ -3,3 +3,7 @@
 # When the build process starts `ansible-galaxy install -r requirements.yml` is executed
 # using this file. Follow the instructions at http://docs.ansible.com/ansible/galaxy.html
 # to include any roles you want intalled prior to running main.yml.
+
+- src: git+https://github.com/fabianvf/mariadb-container.git
+- src: git+https://github.com/fabianvf/etherpad-centos-container.git
+

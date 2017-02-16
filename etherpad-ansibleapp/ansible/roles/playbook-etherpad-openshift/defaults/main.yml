@@ -1,4 +1,0 @@
----
-# defaults for playbook-etherpad-openshift
-
-playbook_debug: no
