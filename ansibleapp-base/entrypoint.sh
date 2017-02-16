@@ -1,14 +1,14 @@
 #!/bin/bash
 ANSIBLEAPP_ACTION=$1
-
+shift
 playbooks=/opt/ansibleapp/actions
 
 oc-login.sh
 
 if [[ "$ANSIBLEAPP_ACTION" == "provision" ]]; then
-  ansible-playbook $playbooks/provision.yaml
+  ansible-playbook $playbooks/provision.yaml $@
 elif [[ "$ANSIBLEAPP_ACTION" == "deprovision" ]]; then
-  ansible-playbook $playbooks/deprovision.yaml
+  ansible-playbook $playbooks/deprovision.yaml $@
 elif [[ "$ANSIBLEAPP_ACTION" == "bind" ]]; then
   echo "BIND NOT IMPLEMENTED" # TODO
 elif [[ "$ANSIBLEAPP_ACTION" == "unbind" ]]; then
