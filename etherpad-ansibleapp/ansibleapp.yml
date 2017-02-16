@@ -4,17 +4,21 @@ description: Note taking web application
 bindable: true
 async: "optional"
 parameters:
-  - name: hostport
-    description: The host TCP port as the external endpoint
-    default: 9001
-  - name: db_user
+  - name: database_user
     description: Database User
-  - name: db_pass
+    default: etherpad
+  - name: database_password
     description: Database Password
-  - name: db_name
+  - name: database_name
     description: Database Name
-  - name: db_host
+    default: etherpad
+  - name: database_host
     description: Database service hostname/ip
     default: mariadb
-  - name: db_port
-    description: Database service port
+  - name: root_password
+    description: root password for mariadb container
+  - name: application_password
+    description: Password for etherpad-lite admin interface
+  - name: session_key
+    description: Key for recovering session. Will default to random UUID
+    required: false

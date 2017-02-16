@@ -1,7 +1,7 @@
-Playbook-Etherpad-Kubernetes
+Etherpad-Ansibleapp-Openshift
 ===
 
-Automates the deployment of playbook-etherpad to Kubernetes.
+Automates the deployment of etherpad-ansibleapp to Openshift.
 
 
 Requirements
@@ -22,13 +22,13 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-Running playbook-etherpad-kubernetes is easy! Here's a sample playbook:
+Running etherpad-ansibleapp-openshift is easy! Here's a sample playbook:
 
     - hosts: localhost 
       gather_facts: no
       connection: local
       roles:
-         - { role: playbook-etherpad-kubernetes }
+         - { role: etherpad-ansibleapp-openshift }
 
 License
 -------

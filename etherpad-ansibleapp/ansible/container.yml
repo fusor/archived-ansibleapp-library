@@ -5,38 +5,49 @@ services:
     expose:
       - 9001
     command: ['/opt/etherpad-lite/bin/run.sh']
+    entrypoint: [/usr/bin/entrypoint.sh]
     user: etherpad-lite
     depends_on:
       - mariadb
     links:
       - mariadb
-    dev_overrides:
-      environment:
-        - "DEBUG=1"
-  nginx:
-    image: centos:7
-    depends_on:
-      - etherpad
-    links:
-      - etherpad
-    expose:
-      - 80
-    command: ['nginx', '-g', 'daemon off;']
-    dev_overrides:
-      environment:
-        - "DEBUG=1"
+    environment:
+      - "DATABASE_USER={{ '{{ database_user }}' }}"
+      - "DATABASE_PASSWORD={{ '{{ database_password }}' }}"
+      - "DATABASE_NAME={{ '{{ database_name }}' }}"
+      - "DATABASE_HOST={{ '{{ database_host }}' }}"
+      - "SESSION_KEY={{ '{{ session_key if session_key is defined else (99999 | random | to_uuid) }}' }}"
+      - "ADMIN_PASSWORD={{ '{{ application_password }}'}}"
+
   mariadb:
     image: centos:7
     expose:
       - 3306
-    command: ['mysqld']
+    volumes:
+      - mariadb-storage:/var/lib/mysql:rw
+      - mariadb-logs:/var/log/mysql:rw
+    environment:
+      - "MARIADB_DATABASE={{ '{{ database_name }}' }}"
+      - "MARIADB_USERNAME={{ '{{ database_user }}' }}"
+      - "MARIADB_PASSWORD={{ '{{ database_password }}' }}"
+      - "MARIADB_ROOT_PASSWORD={{ '{{ root_password }}' }}"
+    entrypoint: [/usr/bin/entrypoint.sh]
+    command: ['/usr/bin/dumb-init', 'mysqld']
     user: mysql
-    dev_overrides:
-      environment:
-        - "DEBUG=1"
+    options:
+      openshift:
+        persistent_volume_claims:
+        - volume_name: mariadb-storage
+          claim_name: mariadb-storage
+          access_modes:
+            - ReadWriteOnce
+        - volume_name: mariadb-logs
+          claim_name: mariadb-logs
+          access_modes:
+            - ReadWriteOnce
+
+volumes:
+  mariadb-storage: {}
+  mariadb-logs: {}
 
 registries: {}
-  # Add optional registries used for deployment. For example:
-  #  google:
-  #    url: https://gcr.io
-  #    namespace: my-cool-project-xxxxxx

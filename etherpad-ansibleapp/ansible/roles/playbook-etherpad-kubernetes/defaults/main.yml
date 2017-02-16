@@ -1,4 +1,0 @@
----
-# defaults for playbook-etherpad-kubernetes
-
-playbook_debug: no
