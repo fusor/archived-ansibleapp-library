@@ -3,7 +3,7 @@ name: ansibleapp/etherpad-ansibleapp
 description: Note taking web application
 bindable: true
 async: "optional"
-answers:
+parameters:
   - name: hostport
     description: The host TCP port as the external endpoint
     default: 9001
