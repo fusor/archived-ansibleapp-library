@@ -1,0 +1,28 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Get environment variables
+      set_fact:
+        database_user: "{{ lookup('env', 'DATABASE_USER') }}"
+        database_host: "{{ lookup('env', 'DATABASE_HOST') }}"
+        database_port: "{{ lookup('env', 'DATABASE_PORT') }}"
+        database_password: "{{ lookup('env', 'DATABASE_PASSWORD') }}"
+        database_name: "{{ lookup('env', 'DATABASE_NAME') }}"
+
+    - name: Update WordPress config file
+      lineinfile:
+        dest: /var/www/html/wordpress/wp-config.php
+        regexp: "{{ item.regexp }}"
+        line: "{{ item.line }}"
+      with_items:
+        - regexp: "define\\('DB_NAME', '(.)+'\\);"
+          line: "define('DB_NAME', '{{ database_name }}');"
+        - regexp: "define\\('DB_HOST', '(.)+'\\);" 
+          line: "define('DB_HOST', '{{ database_host }}:{{ database_port }}');"
+        - regexp: "define\\('DB_USER', '(.)+'\\);" 
+          line: "define('DB_USER', '{{ database_user }}');"
+        - regexp: "define\\('DB_PASSWORD', '(.)+'\\);"
+          line: "define('DB_PASSWORD', '{{ database_password }}');"
+

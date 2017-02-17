@@ -1,0 +1,4 @@
+---
+# defaults for wordpress-ansibleapp-openshift
+
+playbook_debug: no

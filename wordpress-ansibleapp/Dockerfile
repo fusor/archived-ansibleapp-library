@@ -1,5 +1,3 @@
-# TODO: Need to regenerate this file using ansibleapp tooling
-# and add spec to be encoded and stamped as label
 FROM ansibleapp/ansibleapp-base
 # MAINTAINER {{ $MAINTAINER }}
 
@@ -8,12 +6,15 @@ LABEL "com.redhat.ansibleapp.spec"=\
 "aWQ6IDQyNDBiMzljLTExNmItNDBiOS05Yjc3LTJkMzBlMjI5ZjBkYwpuYW1lOiBhbnNpYmxlYXBw\
 L3dvcmRwcmVzcy1hbnNpYmxlYXBwCmRlc2NyaXB0aW9uOiBXb3JkcHJlc3Mgd2ViIHBsYXRmb3Jt\
 CmJpbmRhYmxlOiBmYWxzZQphc3luYzogInVuc3VwcG9ydGVkIgpwYXJhbWV0ZXJzOgogIC0gbmFt\
-ZTogaG9zdHBvcnQKICAgIGRlc2NyaXB0aW9uOiBUaGUgaG9zdCBUQ1AgcG9ydCBhcyB0aGUgZXh0\
-ZXJuYWwgZW5kcG9pbnQKICAgIGRlZmF1bHQ6IDg4ODgKICAtIG5hbWU6IGRiX3VzZXIKICAgIGRl\
-c2NyaXB0aW9uOiBEYXRhYmFzZSBVc2VyCiAgLSBuYW1lOiBkYl9wYXNzCiAgICBkZXNjcmlwdGlv\
-bjogRGF0YWJhc2UgUGFzc3dvcmQKICAtIG5hbWU6IGRiX25hbWUKICAgIGRlc2NyaXB0aW9uOiBE\
-YXRhYmFzZSBOYW1lCiAgLSBuYW1lOiBkYl9ob3N0CiAgICBkZXNjcmlwdGlvbjogRGF0YWJhc2Ug\
-c2VydmljZSBob3N0CiAgICBkZWZhdWx0OiBtYXJpYWRiCiAgLSBuYW1lOiBkYl9wb3J0CiAgICBk\
-ZXNjcmlwdGlvbjogRGF0YWJhc2Ugc2VydmljZSBwb3J0CiAgICBkZWZhdWx0OiAzMzA2Cg=="
+ZTogZGF0YWJhc2VfbmFtZQogICAgZGVzY3JpcHRpb246IERhdGFiYXNlIE5hbWUKICAtIG5hbWU6\
+IGRhdGFiYXNlX3VzZXIKICAgIGRlc2NyaXB0aW9uOiBEYXRhYmFzZSBVc2VyCiAgLSBuYW1lOiBk\
+YXRhYmFzZV9wYXNzd29yZAogICAgZGVzY3JpcHRpb246IERhdGFiYXNlIFBhc3N3b3JkCiAgLSBu\
+YW1lOiByb290X3Bhc3N3b3JkCiAgICBkZXNjcmlwdGlvbjogcm9vdCBwYXNzd29yZCBmb3IgbWFy\
+aWFkYgogIC0gbmFtZTogZGF0YWJhc2VfaG9zdAogICAgZGVzY3JpcHRpb246IERhdGFiYXNlIHNl\
+cnZpY2UgaG9zdAogICAgZGVmYXVsdDogbWFyaWFkYgo="
 ADD ansible /opt/ansible
 ADD ansibleapp /opt/ansibleapp
+
+RUN useradd -u 1001 -r -g 0 -M -b /opt/ansibleapp -s /sbin/nologin -c "ansibleapp user" ansibleapp
+RUN chown -R 1001:0 /opt/{ansible,ansibleapp}
+USER 1001

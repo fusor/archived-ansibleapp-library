@@ -1,4 +1,0 @@
----
-# defaults for wordpress-openshift
-
-playbook_debug: no
