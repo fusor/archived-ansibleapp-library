@@ -9,16 +9,15 @@ install:
   - cd ansible-container && python ./setup.py install
 
 script:
-  - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
-      echo "Building apps for deployment";
-      export APPS=`ls | grep '\-ansibleapp'`
-    ; else
-      echo "Building apps for testing";
-      export APPS=`git diff --name-only origin/master | awk -F '/' '{print $1}' | grep '\-ansibleapp'`
-    ; fi
-  - echo "ansibleapps to be built: $APPS"
+  - echo "Building ansibleapp-base"
+  - docker build -t docker.io/ansibleapp/ansibleapp-base:latest ansibleapp-base
+  - export APPS=`ls | grep '\-ansibleapp'`
+  - echo "ansibleapps detected: $APPS"
+  - echo "Building ansible-container based apps"
   - for app in $APPS ; do
-    ( cd $app ; ansible-container build ) ; done
+      (cd $app ; [[ -s "ansible/container.yml" ]] || continue ;
+      ansible-container build)
+    done
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
       for app in $APPS ; do
         (cd $app ; ansible-container push --tag latest --push-to docker.io/ansibleapp --username $DOCKER_USERNAME --password $DOCKER_PASSWORD)
