@@ -1,0 +1,85 @@
+version: "2"
+services:
+  mariadb-1:
+    image: docker.io/jmontleon/centos-7-galera-mariadb-10:latest
+    working_dir: /
+    user: mysql
+    command: [/usr/local/bin/run.sh]
+    environment:
+    - "MARIADB_DATABASE={{ '{{ mariadb_database }}' }}"
+    - "MARIADB_USERNAME={{ '{{ mariadb_username }}' }}"
+    - "MARIADB_PASSWORD={{ '{{ mariadb_password }}' }}"
+    - "MARIADB_ROOT_PASSWORD={{ '{{ mariadb_root_password }}' }}"
+    - "WSREP_BOOTSTRAP=--wsrep-new-cluster"
+    - "WSREP_CLUSTER_ADDRESSES=mariadb-1,mariadb-2,mariadb-3"
+    - "WSREP_NODE_NAME=mariadb-1"
+    expose:
+    - 3306
+    - 4567
+    - 4444
+    - 4568
+    volumes:
+    - mariadb1-data:/var/lib/mysql:rw
+    options:
+      openshift:
+        persistent_volume_claims:
+        - volume_name: mariadb1-data
+          claim_name: mariadb1-data
+          access_modes:
+          - ReadWriteOnce
+  mariadb-2:
+    image: docker.io/jmontleon/centos-7-galera-mariadb-10:latest
+    working_dir: /
+    user: mysql
+    command: [/usr/local/bin/run.sh]
+    environment:
+    - "MARIADB_DATABASE={{ '{{ mariadb_database }}' }}"
+    - "MARIADB_USERNAME={{ '{{ mariadb_username }}' }}"
+    - "MARIADB_PASSWORD={{ '{{ mariadb_password }}' }}"
+    - "MARIADB_ROOT_PASSWORD={{ '{{ mariadb_root_password }}' }}"
+    - "WSREP_CLUSTER_ADDRESSES=mariadb-1,mariadb-2,mariadb-3"
+    - "WSREP_NODE_NAME=mariadb-2"
+    expose:
+    - 3306
+    - 4567
+    - 4444
+    - 4568
+    volumes:
+    - mariadb2-data:/var/lib/mysql:rw
+    options:
+      openshift:
+        persistent_volume_claims:
+        - volume_name: mariadb2-data
+          claim_name: mariadb2-data
+          access_modes:
+          - ReadWriteOnce
+  mariadb-3:
+    image: docker.io/jmontleon/centos-7-galera-mariadb-10:latest
+    working_dir: /
+    user: mysql
+    command: [/usr/local/bin/run.sh]
+    environment:
+    - "MARIADB_DATABASE={{ '{{ mariadb_database }}' }}"
+    - "MARIADB_USERNAME={{ '{{ mariadb_username }}' }}"
+    - "MARIADB_PASSWORD={{ '{{ mariadb_password }}' }}"
+    - "MARIADB_ROOT_PASSWORD={{ '{{ mariadb_root_password }}' }}"
+    - "WSREP_CLUSTER_ADDRESSES=mariadb-1,mariadb-2,mariadb-3"
+    - "WSREP_NODE_NAME=mariadb-3"
+    expose:
+    - 3306
+    - 4567
+    - 4444
+    - 4568
+    volumes:
+    - mariadb3-data:/var/lib/mysql:rw
+    options:
+      openshift:
+        persistent_volume_claims:
+        - volume_name: mariadb3-data
+          claim_name: mariadb3-data
+          access_modes:
+          - ReadWriteOnce
+volumes:
+  mariadb1-data: {}
+  mariadb2-data: {}
+  mariadb3-data: {}
