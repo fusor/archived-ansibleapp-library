@@ -1,0 +1,31 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mariadb-bootstrap
+  namespace: galera-ansibleapp
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - image: "docker.io/jmontleon/centos-7-galera-mariadb-10"
+          name: main
+          command: ["/usr/local/bin/bootstrap.sh"]
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: mariadb-persistent-storage
+          env:
+            - name: MARIADB_DATABASE
+              value: {{ mariadb_database }}
+            - name: MARIADB_USERNAME
+              value: {{ mariadb_username }}
+            - name: MARIADB_PASSWORD
+              value: {{ mariadb_password }}
+            - name: MARIADB_ROOT_PASSWORD
+              value: {{ mariadb_root_password }}
+            - name: WSREP_BOOTSTRAP
+              value: "-wsrep-new-cluster"
+      volumes:
+        - name: mariadb-persistent-storage
+          persistentVolumeClaim:
+            claimName: mariadb1-data

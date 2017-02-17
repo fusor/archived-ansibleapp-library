@@ -1,0 +1,260 @@
+- oso_pvc:
+    state: present
+    project_name: galera-ansibleapp
+    name: mariadb1-data
+    access_modes:
+    - ReadWriteOnce
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- name: create boostrap job definition
+  template:
+    src: templates/bootstrap-job.j2
+    dest: /tmp/bootstrap-job.yml
+
+- name: create bootstrap job
+  shell: "oc --token={{ token }} -n galera-ansibleapp create -f bootstrap-job.yml"
+  args:
+    chdir: /tmp
+
+- name: wait for boostrap to complete
+  shell: "oc --token={{ token }} -n galera-ansibleapp get pods | grep mariadb-bootstrap"
+  register: job_result
+  until: "'Completed' in job_result.stdout"
+  retries: 24
+  delay: 5
+
+- oso_service:
+    ports:
+    - name: port-3306
+      port: 3306
+      targetPort: 3306
+    - name: port-4567
+      port: 4567
+      targetPort: 4567
+    - name: port-4567-udp
+      port: 4567
+      protocol: UDP
+      targetPort: 4567
+    - name: port-4444
+      port: 4444
+      targetPort: 4444
+    - name: port-4568
+      port: 4568
+      targetPort: 4568
+    service_name: mariadb-3
+    selector:
+      app: galera-ansibleapp
+      service: mariadb-3
+    project_name: galera-ansibleapp
+    labels:
+      app: galera-ansibleapp
+      service: mariadb-3
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_service:
+    ports:
+    - name: port-3306
+      port: 3306
+      targetPort: 3306
+    - name: port-4567
+      port: 4567
+      targetPort: 4567
+    - name: port-4567-udp
+      port: 4567
+      protocol: UDP
+      targetPort: 4567
+    - name: port-4444
+      port: 4444
+      targetPort: 4444
+    - name: port-4568
+      port: 4568
+      targetPort: 4568
+    service_name: mariadb-2
+    selector:
+      app: galera-ansibleapp
+      service: mariadb-2
+    project_name: galera-ansibleapp
+    labels:
+      app: galera-ansibleapp
+      service: mariadb-2
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_service:
+    ports:
+    - name: port-3306
+      port: 3306
+      targetPort: 3306
+    - name: port-4567
+      port: 4567
+      targetPort: 4567
+    - name: port-4567-udp
+      port: 4567
+      protocol: UDP
+      targetPort: 4567
+    - name: port-4444
+      port: 4444
+      targetPort: 4444
+    - name: port-4568
+      port: 4568
+      targetPort: 4568
+    service_name: mariadb-1
+    selector:
+      app: galera-ansibleapp
+      service: mariadb-1
+    project_name: galera-ansibleapp
+    labels:
+      app: galera-ansibleapp
+      service: mariadb-1
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    deployment_name: mariadb-3
+    replace: true
+    containers:
+    - securityContext: {}
+      name: mariadb-3
+      image: docker.io/jmontleon/centos-7-galera-mariadb-10:latest
+      workingDir: /
+      args:
+      - /usr/local/bin/run.sh
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: mariadb3-data
+        readOnly: false
+      env:
+        MARIADB_DATABASE: '{{ mariadb_database }}'
+        MARIADB_PASSWORD: '{{ mariadb_password }}'
+        MARIADB_ROOT_PASSWORD: '{{ mariadb_root_password }}'
+        MARIADB_USERNAME: '{{ mariadb_username }}'
+        WSREP_CLUSTER_ADDRESSES: mariadb-1,mariadb-2,mariadb-3
+        WSREP_NODE_NAME: mariadb-3
+      ports:
+      - 3306
+      - 4567
+      - 4444
+      - 4568
+    project_name: galera-ansibleapp
+    labels:
+      app: galera-ansibleapp
+      service: mariadb-3
+    volumes:
+    - name: mariadb3-data
+      persistentVolumeClaim:
+        claimName: mariadb3-data
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    deployment_name: mariadb-2
+    replace: true
+    containers:
+    - securityContext: {}
+      name: mariadb-2
+      image: docker.io/jmontleon/centos-7-galera-mariadb-10:latest
+      workingDir: /
+      args:
+      - /usr/local/bin/run.sh
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: mariadb2-data
+        readOnly: false
+      env:
+        MARIADB_DATABASE: '{{ mariadb_database }}'
+        MARIADB_PASSWORD: '{{ mariadb_password }}'
+        MARIADB_ROOT_PASSWORD: '{{ mariadb_root_password }}'
+        MARIADB_USERNAME: '{{ mariadb_username }}'
+        WSREP_CLUSTER_ADDRESSES: mariadb-1,mariadb-2,mariadb-3
+        WSREP_NODE_NAME: mariadb-2
+      ports:
+      - 3306
+      - 4567
+      - 4444
+      - 4568
+    project_name: galera-ansibleapp
+    labels:
+      app: galera-ansibleapp
+      service: mariadb-2
+    volumes:
+    - name: mariadb2-data
+      persistentVolumeClaim:
+        claimName: mariadb2-data
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    deployment_name: mariadb-1
+    replace: true
+    containers:
+    - securityContext: {}
+      name: mariadb-1
+      image: docker.io/jmontleon/centos-7-galera-mariadb-10:latest
+      workingDir: /
+      args:
+      - /usr/local/bin/run.sh
+      volumeMounts:
+      - mountPath: /var/lib/mysql
+        name: mariadb1-data
+        readOnly: false
+      env:
+        MARIADB_DATABASE: '{{ mariadb_database }}'
+        MARIADB_PASSWORD: '{{ mariadb_password }}'
+        MARIADB_ROOT_PASSWORD: '{{ mariadb_root_password }}'
+        MARIADB_USERNAME: '{{ mariadb_username }}'
+        WSREP_BOOTSTRAP: --wsrep-new-cluster
+        WSREP_CLUSTER_ADDRESSES: mariadb-1,mariadb-2,mariadb-3
+        WSREP_NODE_NAME: mariadb-1
+      ports:
+      - 3306
+      - 4567
+      - 4444
+      - 4568
+    project_name: galera-ansibleapp
+    labels:
+      app: galera-ansibleapp
+      service: mariadb-1
+    volumes:
+    - name: mariadb1-data
+      persistentVolumeClaim:
+        claimName: mariadb1-data
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_pvc:
+    state: present
+    name: mariadb3-data
+    project_name: galera-ansibleapp
+    access_modes:
+    - ReadWriteOnce
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_pvc:
+    state: present
+    name: mariadb2-data
+    project_name: galera-ansibleapp
+    access_modes:
+    - ReadWriteOnce
+  register: output
+
+- debug: var=output
+  when: playbook_debug

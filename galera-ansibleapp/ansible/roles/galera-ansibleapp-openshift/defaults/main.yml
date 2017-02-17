@@ -1,0 +1,9 @@
+---
+# defaults for galera-ansibleapp-openshift
+
+playbook_debug: no
+mariadb_database: "{{ lookup('env','MARIADB_DATABASE') | default('mysql', true) }}"
+mariadb_password: "{{ lookup('env','MARIADB_PASSWORD') | default('foo', true) }}"
+mariadb_root_password: "{{ lookup('env','MARIADB_ROOT_PASSWORD') | default('sesame', true) }}"
+mariadb_username: "{{ lookup('env','MARIADB_USERNAME') | default('admin', true) }}"
+token: "{{ lookup('env','TOKEN') }}"
