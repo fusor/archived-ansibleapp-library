@@ -9,11 +9,8 @@ install:
   - (cd ansible-container && python ./setup.py install)
 
 script:
-  - echo "Building ansibleapp-base"
   - docker build -t docker.io/ansibleapp/ansibleapp-base:latest ansibleapp-base
   - export APPS=`ls | grep '\-ansibleapp'`
-  - echo "ansibleapps detected: $APPS"
-  - echo "Building ansible-container based apps"
   - for app in $APPS ; do
       (cd $app ; [[ -s "ansible/container.yml" ]] || continue ;
       ansible-container build)
