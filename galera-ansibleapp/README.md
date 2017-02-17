@@ -1,4 +1,4 @@
-etherpad-ansibleapp
+galera-ansibleapp
 ======================
 
 An AnsibleApp for deploying [a mariadb multi-master galera cluster](https://mariadb.com/kb/en/mariadb/getting-started-with-mariadb-galera-cluster/).  
