@@ -35,6 +35,21 @@
 - debug: var=output
   when: playbook_debug
 
+- oso_route:
+    project_name: etherpad-ansibleapp
+    service_port: port-9001
+    labels:
+      app: etherpad-ansibleapp
+      service: etherpad
+    route_name: etherpad-9001
+    replace: true
+    service_name: etherpad
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
 - oso_deployment:
     project_name: etherpad-ansibleapp
     labels:
@@ -95,10 +110,10 @@
         DATABASE_USER: '{{ database_user }}'
         SESSION_KEY: '{{ session_key if session_key is defined else (99999 | random
           | to_uuid) }}'
-      command:
-      - /usr/bin/entrypoint.sh
       args:
       - /opt/etherpad-lite/bin/run.sh
+      command:
+      - /usr/bin/entrypoint.sh
       ports:
       - 9001
     replace: true
