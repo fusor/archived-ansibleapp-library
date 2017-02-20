@@ -2,8 +2,12 @@
 # defaults for galera-ansibleapp-openshift
 
 playbook_debug: no
+cluster_size: "{{ lookup('env','CLUSTER_SIZE') | default(3, true) }}"
 mariadb_database: "{{ lookup('env','MARIADB_DATABASE') | default('mysql', true) }}"
 mariadb_password: "{{ lookup('env','MARIADB_PASSWORD') | default('foo', true) }}"
 mariadb_root_password: "{{ lookup('env','MARIADB_ROOT_PASSWORD') | default('sesame', true) }}"
 mariadb_username: "{{ lookup('env','MARIADB_USERNAME') | default('admin', true) }}"
-token: "{{ lookup('env','TOKEN') }}"
+namespace: "{{ lookup('env','NAMESPACE') | default('galera', true) }}"
+openshift_target: "{{ lookup('env','OPENSHIFT_TARGET') }}"
+openshift_user: "{{ lookup('env','OPENSHIFT_USER') }}"
+openshift_pass: "{{ lookup('env','OPENSHIFT_PASS') }}"

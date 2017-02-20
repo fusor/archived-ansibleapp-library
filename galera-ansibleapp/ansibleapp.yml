@@ -1,12 +1,13 @@
 id: 70ebd8a3-27d9-4adc-b3d3-c1c41c591e4f
 name: ansibleapp/galera-ansibleapp
-description: Note taking web application
+description: A multi-master SQL Database implementation
 bindable: true
 async: optional
 parameters:
-  - name: token
-    description: token to use with oc client. For bootstrap until a better way is developed
-    type: string
+  - name: cluster_size
+    description: Size of the cluster to deploy
+    type: int
+    default: 3
   - name: mariadb_database
     description: Database name
     type: string
@@ -23,3 +24,16 @@ parameters:
     description: Root Database Password
     type: string
     default: sesame
+  - name: namespace
+    description: Namespace to deploy the cluster to
+    type: string
+    default: galera
+  - name: openshift_target
+    description: target openshift deployment to run on
+    type: string
+  - name: openshift_user
+    description: openshift user to log in as
+    type: string
+  - name: openshift_pass
+    description: password for openshift user
+    type: string
