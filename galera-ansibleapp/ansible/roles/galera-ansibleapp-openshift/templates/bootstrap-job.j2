@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: mariadb-bootstrap
-  namespace: galera-ansibleapp
+  namespace: "{{ namespace }}"
 spec:
   template:
     spec:
@@ -28,4 +28,4 @@ spec:
       volumes:
         - name: mariadb-persistent-storage
           persistentVolumeClaim:
-            claimName: mariadb1-data
+            claimName: mariadb-1-data
