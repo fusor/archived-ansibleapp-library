@@ -24,7 +24,7 @@ spec:
             - name: MARIADB_ROOT_PASSWORD
               value: {{ mariadb_root_password }}
             - name: WSREP_BOOTSTRAP
-              value: "-wsrep-new-cluster"
+              value: "--wsrep-new-cluster"
       volumes:
         - name: mariadb-persistent-storage
           persistentVolumeClaim:
