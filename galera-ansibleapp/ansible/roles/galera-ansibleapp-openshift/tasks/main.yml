@@ -1,3 +1,6 @@
+- name: oc login
+  shell: "oc login {{ openshift_target }} -u '{{ openshift_user }}' -p '{{ openshift_pass }}' --insecure-skip-tls-verify=true"
+
 - oso_pvc:
     state: present
     project_name: "{{ namespace }}"
@@ -14,9 +17,6 @@
   template:
     src: templates/bootstrap-job.j2
     dest: /tmp/bootstrap-job.yml
-
-- name: oc login
-  shell: "oc login {{ openshift_target }} -u '{{ openshift_user }}' -p '{{ openshift_pass }}' --insecure-skip-tls-verify=true"
 
 - name: create bootstrap job
   shell: "oc -n {{ namespace }} create -f bootstrap-job.yml"
