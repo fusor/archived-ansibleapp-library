@@ -1,0 +1,4 @@
+---
+# defaults for ansible-service-broker-ansibleapp-openshift
+
+playbook_debug: no
