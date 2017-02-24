@@ -1,7 +1,7 @@
-Wordpress-Openshift
+Wordpress-Ansibleapp-Openshift
 ===
 
-Automates the deployment of wordpress to Openshift.
+Automates the deployment of wordpress-ansibleapp to Openshift.
 
 
 Requirements
@@ -22,13 +22,13 @@ A list of other roles hosted on Galaxy should go here, plus any details in regar
 Example Playbook
 ----------------
 
-Running wordpress-openshift is easy! Here's a sample playbook:
+Running wordpress-ansibleapp-openshift is easy! Here's a sample playbook:
 
     - hosts: localhost 
       gather_facts: no
       connection: local
       roles:
-         - { role: wordpress-openshift }
+         - { role: wordpress-ansibleapp-openshift }
 
 License
 -------
