@@ -1,0 +1,17 @@
+version: "2"
+services:
+  main:
+    image: centos:7
+    ports:
+      - "1337:1337"
+    expose:
+      - 1337
+    user: root
+    command: ["entrypoint.sh"]
+    environment:
+      - "MONGO_HOST={{ '{{mongo_host}}' }}"
+      - "MONGO_PORT={{ '{{mongo_port}}' }}"
+      - "MONGO_DB={{ '{{mongo_db}}' }}"
+      - "MONGO_USER={{ '{{mongo_user}}' }}"
+      - "MONGO_PASS={{ '{{mongo_pass}}' }}"
+registries: {}

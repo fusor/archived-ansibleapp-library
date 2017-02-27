@@ -1,0 +1,59 @@
+
+- oso_service:
+    service_name: main
+    project_name: fusor-guestbook-ansibleapp
+    labels:
+      app: fusor-guestbook-ansibleapp
+      service: main
+    ports:
+    - name: port-1337
+      port: 1337
+      targetPort: 1337
+    selector:
+      app: fusor-guestbook-ansibleapp
+      service: main
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: fusor-guestbook-ansibleapp
+    service_port: port-1337
+    labels:
+      app: fusor-guestbook-ansibleapp
+      service: main
+    route_name: main-1337
+    replace: true
+    service_name: main
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: fusor-guestbook-ansibleapp
+    labels:
+      app: fusor-guestbook-ansibleapp
+      service: main
+    deployment_name: main
+    containers:
+    - securityContext: {}
+      name: main
+      env:
+        MONGO_DB: '{{mongo_db}}'
+        MONGO_HOST: '{{mongo_host}}'
+        MONGO_PASS: '{{mongo_pass}}'
+        MONGO_PORT: '{{mongo_port}}'
+        MONGO_USER: '{{mongo_user}}'
+      args:
+      - entrypoint.sh
+      image: docker.io/ansibleapp/fusor-guestbook-ansibleapp-main:latest
+      ports:
+      - 1337
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug
