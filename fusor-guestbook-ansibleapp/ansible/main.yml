@@ -1,0 +1,33 @@
+- hosts: main
+  gather_facts: false
+  vars:
+    guestbook_checkout: /opt/fusor-guestbook
+  tasks:
+    - name: Upgrade all packages
+      yum: name='*' state=latest
+    - name: Install epel
+      yum:
+        name: epel-release
+        state: latest
+    - name: Install system deps
+      yum: pkg={{item}} state=latest
+      with_items:
+        - git
+        - nodejs
+        - npm
+    - name: Checkout Fusor Guestbook
+      git:
+        repo: https://github.com/fusor/fusor-guestbook
+        dest: "{{guestbook_checkout}}"
+        version: v0.1.0
+    - name: Install npm deps
+      shell: npm install
+      args:
+        chdir: "{{guestbook_checkout}}"
+    - name: Install entrypoint.sh
+      copy:
+        remote_src: True
+        src: /opt/fusor-guestbook/entrypoint.sh
+        dest: /usr/bin
+        mode: 0777
+

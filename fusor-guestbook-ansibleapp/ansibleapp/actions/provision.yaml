@@ -1,0 +1,7 @@
+- name: Deploy fusor-guestbook-ansibleapp to  openshift
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  roles:
+  - role: fusor-guestbook-ansibleapp-openshift
+    playbook_debug: false
