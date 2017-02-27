@@ -1,0 +1,18 @@
+id: 70ebd8a3-27d9-4adc-b3d3-c1c41c60af56
+name: ansibleapp/mongodb-ansibleapp
+description: MongoDB ansibleapp implementation
+bindable: false
+async: optional
+parameters:
+  - name: database_pass
+    description: Password for the database user
+    type: string
+    default: admin
+  - name: database_user
+    description: Database user
+    type: string
+    default: admin
+  - name: namespace
+    description: Namespace to deploy the cluster to
+    type: string
+    default: mongodb-ansibleapp
