@@ -108,7 +108,7 @@
         MIQ_MEMCACHED_SERVICE_HOST: '{{ miq_memcached_service_host }}'
         MIQ_POSTGRESQL_PORT: '{{ miq_postgresql_port }}'
         MIQ_POSTGRESQL_PORT_5432_TCP: '{{ miq_postgresql_port_5432_tcp }}'
-        MIQ_POSTGRESQL_PORT_5432_TCP_ADDR: '{{ miq_postgresql_5432_tcp_port }}'
+        MIQ_POSTGRESQL_PORT_5432_TCP_ADDR: '{{ miq_postgresql_5432_tcp_addr }}'
         MIQ_POSTGRESQL_SERVICE_HOST: '{{ miq_postgresql_service_host }}'
         POSTGRESQL_DATABASE: '{{ postgresql_database }}'
         POSTGRESQL_PASSWORD: '{{ postgresql_password }}'
