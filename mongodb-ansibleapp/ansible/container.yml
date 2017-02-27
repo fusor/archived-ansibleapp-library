@@ -1,0 +1,21 @@
+version: "2"
+services:
+  mongodb:
+    image: docker.io/jmontleon/mongodb:centos7
+    working_dir: /
+    environment:
+    - "DATABASE_USER={{ '{{ database_user }}' }}"
+    - "DATABASE_PASS={{ '{{ database_pass }}' }}"
+    expose:
+    - 27017
+    volumes:
+    - mongodb:/data/db:rw
+    options:
+      openshift:
+        persistent_volume_claims:
+        - volume_name: mongodb
+          claim_name: mongodb
+          access_modes:
+          - ReadWriteOnce
+volumes:
+  mongodb: {}
