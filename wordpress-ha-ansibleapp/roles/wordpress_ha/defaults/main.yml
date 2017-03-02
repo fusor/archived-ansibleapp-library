@@ -4,3 +4,5 @@ xtrabackup_password: k8spassword
 cluster_name: percona
 database_password: k8spassword
 database_user: root
+database_host: mysql
+discovery_service: etcd:2379
