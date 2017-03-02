@@ -44,7 +44,7 @@ metadata:
     name: mysql  
 spec:
   serviceName: "mysql"
-  replicas: 3
+  replicas: {{ database_replicas }}
   template:
     metadata:
       labels:

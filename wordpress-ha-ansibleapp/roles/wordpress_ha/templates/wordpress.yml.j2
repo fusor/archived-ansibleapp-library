@@ -34,8 +34,8 @@ spec:
   scaleTargetRef:
     kind: ReplicaSet
     name: wordpress
-  minReplicas: 5
-  maxReplicas: 10
+  minReplicas: {{ min_wordpress_replicas }}
+  maxReplicas: {{ max_wordpress_replicas }}
   targetCPUUtilizationPercentage: 50
 
 ---

@@ -8,11 +8,8 @@ parameters:
     description: Namespace to deploy containers to
     default: wordpress-ha
   - name: root_password
-    description: root mysql password
+    description: root database password
     default: k8spassword
-  # - name: discovery_service
-  #   description: discovery service for percona cluster
-  #   default: etcd:2379
   - name: xtrabackup_password
     description: password for something no idea what
     default: k8spassword
@@ -25,6 +22,12 @@ parameters:
   - name: database_user
     description: user for database
     default: root
-  # - name: database_host
-  #   description: host for database
-  #   default: mysql
+  - name: database_replicas
+    description: number of database nodes to bring up
+    default: 3
+  - name: min_wordpress_replicas
+    description: minimum number of wordpress replicas to run
+    default: 5
+  - name: max_wordpress_replicas
+    description: maximum number of wordpress replicas to run
+    default: 10

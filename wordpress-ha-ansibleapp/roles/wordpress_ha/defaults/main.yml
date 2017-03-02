@@ -6,3 +6,6 @@ database_password: k8spassword
 database_user: root
 database_host: mysql
 discovery_service: etcd:2379
+min_wordpress_replicas: 5
+max_wordpress_replicas: 10
+database_replicas: 3
