@@ -1,0 +1,29 @@
+- name: make directory for templates
+  file:
+    path: ./wordpress-ha-templates
+    state: directory
+
+- name: template project files
+  template:
+    src: '{{ item }}'
+    dest: ./wordpress-ha-templates/{{ item[0:-3] }}
+  with_items:
+    - volumes.yml.j2
+    - etcd.yml.j2
+    - mysql.yml.j2
+    - wordpress.yml.j2
+
+- name: create project
+  command: oc new-project '{{ project_name }}'
+
+- name: create persistent volume claims
+  command: oc create -f ./wordpress-ha-templates/volumes.yml
+
+- name: create etc pods and service
+  command: oc create -f ./wordpress-ha-templates/etcd.yml
+
+- name: create mysql pods and service and stateful set
+  command: oc create -f ./wordpress-ha-templates/mysql.yml
+
+- name: create wordpress pods, scaler and replicaset
+  command: oc create -f ./wordpress-ha-templates/wordpress.yml

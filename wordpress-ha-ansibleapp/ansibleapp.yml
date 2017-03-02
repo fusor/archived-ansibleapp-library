@@ -1,0 +1,9 @@
+id: 9b70e6bf-26f8-4c1f-a57f-07501388c1e8
+name: ansibleapp/wordpress-ha-ansibleapp
+description: high availability wordpress deployment
+bindable: true
+async: "optional"
+parameters:
+  - name: project_name
+    description: Namespace to deploy containers to
+    default: wordpress-ha
