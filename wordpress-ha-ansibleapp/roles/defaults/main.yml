@@ -1,0 +1,6 @@
+project_name: wordpress-ha
+root_password: k8spassword
+xtrabackup_password: k8spassword
+cluster_name: percona
+database_password: k8spassword
+database_user: root

@@ -59,13 +59,13 @@ spec:
           name: mysql
         env:
           - name: MYSQL_ROOT_PASSWORD
-            value: k8spassword
+            value: {{ root_password }}
           - name: DISCOVERY_SERVICE
-            value: etcd:2379
+            value: {{ discovery_service }}
           - name: XTRABACKUP_PASSWORD
-            value: k8spassword
+            value: {{ xtrabackup_password }}
           - name: CLUSTER_NAME
-            value: percona
+            value: {{ cluster_name }}
         volumeMounts:
         - name: db
           mountPath: /var/lib/mysql
