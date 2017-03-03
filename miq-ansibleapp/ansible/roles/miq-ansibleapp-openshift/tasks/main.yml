@@ -139,7 +139,8 @@
       service: miq-postgresql
     deployment_name: miq-postgresql
     containers:
-    - securityContext: {}
+    - securityContext:
+        privileged: true
       name: miq-postgresql
       env:
         POSTGRESQL_DATABASE: '{{ postgresql_database }}'
