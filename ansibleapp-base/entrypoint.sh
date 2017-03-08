@@ -10,7 +10,7 @@ if [[ "$ANSIBLEAPP_ACTION" == "provision" ]]; then
 elif [[ "$ANSIBLEAPP_ACTION" == "deprovision" ]]; then
   ansible-playbook $playbooks/deprovision.yaml $@
 elif [[ "$ANSIBLEAPP_ACTION" == "bind" ]]; then
-  echo "BIND NOT IMPLEMENTED" # TODO
+  ansible-playbook $playbooks/bind.yaml $@
 elif [[ "$ANSIBLEAPP_ACTION" == "unbind" ]]; then
   echo "UNBIND NOT IMPLEMENTED" # TODO
 fi
