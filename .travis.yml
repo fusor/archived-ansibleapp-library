@@ -13,11 +13,14 @@ script:
   - export APPS=`ls | grep '\-ansibleapp'`
   - for app in $APPS ; do
       (cd $app ; [[ -s "ansible/container.yml" ]] || continue ;
-      ansible-container build)
+      ansible-container build);
+      (cd $app ; [[ -s "Dockerfile" ]] || continue ;
+      docker build -t ansibleapp/$app .)
     done
   - if [ "$TRAVIS_BRANCH" = "master" ] && [ "$TRAVIS_PULL_REQUEST" = "false" ] ; then
       for app in $APPS ; do
-        (cd $app ; ansible-container push --tag latest --push-to docker.io/ansibleapp --username $DOCKER_USERNAME --password $DOCKER_PASSWORD)
+        (cd $app ; ansible-container push --tag latest --push-to docker.io/ansibleapp --username $DOCKER_USERNAME --password $DOCKER_PASSWORD);
+        (docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD; docker push ansibleapp/$app)
       ; done
     ; fi
   - docker images
