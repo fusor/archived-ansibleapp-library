@@ -1,0 +1,20 @@
+id: 071f3645-7189-4808-b9c2-2d29c143e80d
+name: ansibleapp/external-mlab-ansibleapp
+description: Bindable ansibleapp shim for external mlab mongodb database
+bindable: true
+async: "unsupported"
+parameters:
+  - name: ip
+    description: mongodb ip address
+  - name: port
+    description: mongodb port
+  - name: db
+    description: mongodb database
+  - name: acct_one_user
+    description: first account user
+  - name: acct_one_pass
+    description: second account pass
+  - name: acct_two_user
+    description: second account user
+  - name: acct_two_pass
+    description: second account pass

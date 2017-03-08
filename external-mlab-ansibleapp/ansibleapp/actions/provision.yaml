@@ -1,0 +1,18 @@
+- hosts: all
+  vars:
+    ansibleapp_dir: /opt/ansibleapp
+    rendered_resource: /tmp/provision-svc-endpoint.yaml
+    custom_proj: "{{lookup('env', 'NAMESPACE') | default('external-mlab', true)}}"
+  tasks:
+    - name: Create new project
+      shell: "oc new-project {{custom_proj}}"
+    - name: Activate project
+      shell: "oc project {{custom_proj}}"
+    - name: Render resource
+      template:
+        src: "{{ansibleapp_dir}}/provision-svc-endpoint.yaml.j2"
+        dest: "{{rendered_resource}}"
+        owner: ansibleapp
+        mode: '0666'
+    - name: Create resource
+      shell: "oc create -f {{rendered_resource}}"
