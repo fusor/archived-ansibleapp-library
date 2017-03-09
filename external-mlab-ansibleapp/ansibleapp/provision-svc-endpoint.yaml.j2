@@ -1,0 +1,24 @@
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: "external-mlab"
+spec:
+  ports:
+    - name: "mlab"
+      protocol: "TCP"
+      port: {{port}}
+      targetPort: {{port}}
+      nodePort: 0
+selector: {}
+---
+kind: "Endpoints"
+apiVersion: "v1"
+metadata:
+  name: "external-mlab"
+subsets:
+- addresses:
+  - ip: {{ip}}
+  ports:
+  - name: "external-mlab"
+    port: {{port}}
