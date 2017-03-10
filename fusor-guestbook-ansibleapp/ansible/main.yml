@@ -19,7 +19,7 @@
       git:
         repo: https://github.com/fusor/fusor-guestbook
         dest: "{{guestbook_checkout}}"
-        version: v0.1.0
+        version: v0.2.0
     - name: Install npm deps
       shell: npm install
       args:
