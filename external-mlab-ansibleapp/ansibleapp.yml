@@ -4,6 +4,9 @@ description: Bindable ansibleapp shim for external mlab mongodb database
 bindable: true
 async: "unsupported"
 parameters:
+  - name: binding_key
+    description: key used to identify the binding info
+    type: string
   - name: ip
     description: mongodb ip address
   - name: port

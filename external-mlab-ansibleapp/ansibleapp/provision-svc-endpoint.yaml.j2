@@ -2,10 +2,10 @@
 kind: "Service"
 apiVersion: "v1"
 metadata:
-  name: "external-mlab"
+  name: {{binding_key}}
 spec:
   ports:
-    - name: "mlab"
+    - name: {{binding_key}}
       protocol: "TCP"
       port: {{port}}
       targetPort: {{port}}
@@ -15,10 +15,10 @@ selector: {}
 kind: "Endpoints"
 apiVersion: "v1"
 metadata:
-  name: "external-mlab"
+  name: {{binding_key}}
 subsets:
 - addresses:
   - ip: {{ip}}
   ports:
-  - name: "external-mlab"
+  - name: {{binding_key}}
     port: {{port}}
