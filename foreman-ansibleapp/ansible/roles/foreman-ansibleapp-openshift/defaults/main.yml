@@ -1,0 +1,13 @@
+---
+# defaults for foreman-ansibleapp-openshift
+
+playbook_debug: no
+db_encryption_key: "{{ lookup('env','DB_ENCRYPTION_KEY') }}"
+foreman_admin_password: "{{ lookup('env','FOREMAN_ADMIN_PASSWORD') | default('changeme', true) }}"
+namespace: "{{ lookup('env','NAMESPACE') | default('foreman-ansibleapp', true) }}"
+openshift_target: "{{ lookup('env','OPENSHIFT_TARGET') }}"
+openshift_user: "{{ lookup('env','OPENSHIFT_USER') }}"
+openshift_pass: "{{ lookup('env','OPENSHIFT_PASS') }}"
+postgresql_database: "{{ lookup('env','POSTGRESQL_DATABASE') | default('foreman', true) }}"
+postgresql_password: "{{ lookup('env','POSTGRESQL_PASSWORD') | default('admin', true) }}"
+postgresql_user: "{{ lookup('env','POSTGRESQL_USER') | default('admin', true) }}"

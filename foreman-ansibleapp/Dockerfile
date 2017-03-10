@@ -1,0 +1,30 @@
+FROM ansibleapp/ansibleapp-base
+# MAINTAINER {{ $MAINTAINER }}
+
+LABEL "com.redhat.ansibleapp.version"="0.1.0"
+LABEL "com.redhat.ansibleapp.spec"=\
+"aWQ6IDgyNjYyZWQ2LTI2Y2EtNDFhNS1hNzMxLTllMjIxMzJkNDc4MQpuYW1lOiBhbnNpYmxlYXBw\
+L2ZvcmVtYW4tYW5zaWJsZWFwcApkZXNjcmlwdGlvbjogRm9yZW1hbiBhbnNpYmxlYXBwIGltcGxl\
+bWVudGF0aW9uCmJpbmRhYmxlOiBmYWxzZQphc3luYzogb3B0aW9uYWwKcGFyYW1ldGVyczoKICAt\
+IG5hbWU6IGRiX2VuY3J5cHRpb25fa2V5CiAgICBkZXNjcmlwdGlvbjogREIgRW5jcnlwdGlvbiBr\
+ZXkKICAgIGRlZmF1bHQ6ICcnCiAgICByZXF1aXJlZDogZmFsc2UKICAtIG5hbWU6IGZvcmVtYW5f\
+YWRtaW5fcGFzc3dvcmQgCiAgICBkZXNjcmlwdGlvbjogZm9yZW1hbiBhZG1pbiBwYXNzd29yZAog\
+ICAgZGVmYXVsdDogY2hhbmdlbWUKICAtIG5hbWU6IG5hbWVzcGFjZQogICAgZGVzY3JpcHRpb246\
+IE5hbWVzcGFjZSB0byBkZXBsb3kgdGhlIGNsdXN0ZXIgdG8KICAgIHR5cGU6IHN0cmluZwogICAg\
+ZGVmYXVsdDogZm9yZW1hbi1hbnNpYmxlYXBwCiAgLSBuYW1lOiBwb3N0Z3Jlc3FsX2RhdGFiYXNl\
+CiAgICBkZXNjcmlwdGlvbjogcG9zdGdyZXNxbCBkYXRhYmFzZSBuYW1lCiAgICB0eXBlOiBzdHJp\
+bmcKICAgIGRlZmF1bHQ6IGZvcmVtYW4KICAtIG5hbWU6IHBvc3RncmVzcWxfcGFzc3dvcmQKICAg\
+IGRlc2NyaXB0aW9uOiBwb3N0Z3Jlc3FsIGRhdGFiYXNlIHBhc3N3b3JkCiAgICB0eXBlOiBzdHJp\
+bmcKICAgIGRlZmF1bHQ6IGFkbWluCiAgLSBuYW1lOiBwb3N0Z3Jlc3FsX3VzZXIKICAgIGRlc2Ny\
+aXB0aW9uOiBwb3N0Z3Jlc3FsIGRhdGFiYXNlIHVzZXJuYW1lCiAgICB0eXBlOiBzdHJpbmcKICAg\
+IGRlZmF1bHQ6IGFkbWluCg=="
+
+ADD foreman /opt/foreman 
+RUN yum -y install openssl && yum clean all
+
+ADD ansible /opt/ansible
+ADD ansibleapp /opt/ansibleapp
+
+RUN useradd -u 1001 -r -g 0 -M -b /opt/ansibleapp -s /sbin/nologin -c "ansibleapp user" ansibleapp
+RUN chown -R 1001:0 /opt/{ansible,ansibleapp,foreman}
+USER 1001

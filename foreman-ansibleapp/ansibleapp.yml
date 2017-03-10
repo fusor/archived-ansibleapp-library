@@ -1,0 +1,29 @@
+id: 82662ed6-26ca-41a5-a731-9e22132d4781
+name: ansibleapp/foreman-ansibleapp
+description: Foreman ansibleapp implementation
+bindable: false
+async: optional
+parameters:
+  - name: db_encryption_key
+    description: DB Encryption key
+    default: ''
+    required: false
+  - name: foreman_admin_password 
+    description: foreman admin password
+    default: changeme
+  - name: namespace
+    description: Namespace to deploy the cluster to
+    type: string
+    default: foreman-ansibleapp
+  - name: postgresql_database
+    description: postgresql database name
+    type: string
+    default: foreman
+  - name: postgresql_password
+    description: postgresql database password
+    type: string
+    default: admin
+  - name: postgresql_user
+    description: postgresql database username
+    type: string
+    default: admin
