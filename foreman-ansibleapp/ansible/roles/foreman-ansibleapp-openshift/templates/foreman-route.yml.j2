@@ -21,3 +21,6 @@ spec:
     kind: Service
     name: foreman
     weight: 100
+  {% if use_cn_for_route_hostname == true -%}
+  host: {{ certificate_cn }}
+  {% endif %}

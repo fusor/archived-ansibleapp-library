@@ -8,3 +8,8 @@ spec:
   resources:
     requests:
       storage: 1Gi
+{% if create_pvs == true %}
+  selector:
+    matchLabels:
+      name: tfm-postgresql
+{% endif %}
