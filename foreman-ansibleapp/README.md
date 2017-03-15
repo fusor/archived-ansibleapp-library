@@ -19,7 +19,7 @@ An AnsibleApp for deploying [Foreman](http://theforeman.org/).
 * POSTGRESQL_HOSTNAME, default 'tfm-postgresql', Postgresql database hosts hostname. Accept default if deploying a dedicated postgresql instance.
 * POSTGRESQL_PASSWORD, default 'admin', Postgresql database password.
 * POSTGRESQL_USER, default 'admin', Postgresql database username.
-* OPENSHIFT_TARTET: Required, target openshift deployment
+* OPENSHIFT_TARGET: Required, target openshift deployment
 * OPENSHIFT_USER: Required, openshift user to login as
 * OPENSHIFT_PASS: Required, openshift users password
 * PV_BASE_PATH: default '/opt/k8s', path for hostPath PV's if created
@@ -43,7 +43,7 @@ Deploy a postgresql-ansibleapp (representing any postgresql container/host) and 
 
 Deploy foreman and postgresql with a custom CN for SSL cert and route:
 
-`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" -e CERTIFICATE_CN="foreman.example.com" -e SET_ROUTE_HOSTNAME=true ansibleapp/foreman-ansibleapp provision`
+`docker run -e "OPENSHIFT_TARGET=<openshift_target>" -e "OPENSHIFT_USER=<user>" -e "OPENSHIFT_PASS=<password>" -e CERTIFICATE_CN="foreman.example.com" -e USE_CN_FOR_ROUTE_HOSTNAME=true ansibleapp/foreman-ansibleapp provision`
 
 ## Tearing down the application
 
