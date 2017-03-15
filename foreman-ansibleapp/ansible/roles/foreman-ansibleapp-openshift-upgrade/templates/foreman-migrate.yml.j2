@@ -10,7 +10,7 @@ spec:
       containers:
         - image: "docker.io/jmontleon/foreman-centos7:{{ version }}"
           name: main
-          command: ["/bin/bash", "-c", "foreman-rake db:migrate && foreman-rake db:seed && foreman-rake permissions:reset username=admin password={{foreman_admin_password}}"]
+          command: ["/bin/bash", "-c", "foreman-rake db:migrate"]
           volumeMounts:
           - name: foreman-config
             mountPath: /etc/foreman

@@ -2,7 +2,7 @@
   shell: "oc login {{ openshift_target }} -u '{{ openshift_user }}' -p '{{ openshift_pass }}' --insecure-skip-tls-verify=true"
 
 - name: check if namespace exists
-  shell: "oc get project --no-headers=true | awk '{ print $1}' | grep -w {{ namespace }} | cat"
+  shell: "oc get project --no-headers=true | awk '{ print $1}' | grep -E '^{{ namespace }}( |$)' | cat"
   register: project
 
 - name: create namespace if it does not
@@ -46,14 +46,37 @@
          --from-file=/opt/foreman/secrets/certs/httpd.crt \
          --from-file=/opt/foreman/secrets/certs/httpd.key
 
+- name: create pv resource template
+  template:
+    src: pvs.yml.j2
+    dest: /tmp/pvs.yml
+  when: create_pvs
+
+- name: create tfm-postgresql pvc resource template
+  template:
+    src: tfm-postgresql-pvc.yml.j2
+    dest: /tmp/tfm-postgresql-pvc.yml
+  when: deploy_postgresql
+
+- name: create foreman pvc resource template
+  template:
+    src: foreman-pvc.yml.j2
+    dest: /tmp/foreman-pvc.yml
+
+- name: create pv's
+  shell: "oc create -n {{ namespace }} -f /tmp/pvs.yml"
+  when: create_pvs
+
 - name: create postgresql pvc
-  shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/tfm-postgresql-pvc.yml"
+  shell: "oc create -n {{ namespace }} -f /tmp/tfm-postgresql-pvc.yml"
+  when: deploy_postgresql
 
 - name: create foreman pvc
-  shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/foreman-pvc.yml"
+  shell: "oc create -n {{ namespace }} -f /tmp/foreman-pvc.yml"
 
 - name: create postgresql svc
   shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/tfm-postgresql-svc.yml"
+  when: deploy_postgresql
 
 - name: create foreman pvc
   shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/foreman-svc.yml"
@@ -62,6 +85,7 @@
   template:
     src: tfm-postgresql-dc.yml.j2
     dest: /tmp/tfm-postgresql-dc.yml
+  when: deploy_postgresql
 
 - name: create foreman dc resource template
   template:
@@ -70,6 +94,7 @@
 
 - name: create postgresql dc
   shell: "oc create -n {{ namespace }} -f /tmp/tfm-postgresql-dc.yml"
+  when: deploy_postgresql
 
 - name: create migrate job definition
   template:
@@ -82,12 +107,13 @@
   until: "'Running' in postgresql_start.stdout"
   retries: 24
   delay: 5
+  when: deploy_postgresql
 
 - name: create migrate job
   shell: "oc -n {{ namespace }} create -f /tmp/foreman-migrate.yml"
 
 - name: wait for db migration and seed to complete
-  shell: "oc -n {{ namespace }} get pods | grep foreman-migrate"
+  shell: "oc -n {{ namespace }} get pods | grep foreman-migrate-{{ version }}"
   register: job_result
   until: "'Completed' in job_result.stdout"
   retries: 24

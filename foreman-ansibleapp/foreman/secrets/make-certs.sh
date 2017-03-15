@@ -33,7 +33,7 @@ openssl req \
   -new \
   -key certs/httpd.key \
   -out ${TMP}/httpd.req \
-  -subj "/CN=foreman/O=$ORG" #&> /dev/null
+  -subj "/CN=$CERTIFICATE_CN/O=$ORG" #&> /dev/null
 
 # create a signed certificate
 openssl x509 \
