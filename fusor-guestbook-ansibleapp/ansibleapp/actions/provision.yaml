@@ -1,7 +1,17 @@
-- name: Deploy fusor-guestbook-ansibleapp to  openshift
-  hosts: localhost
-  gather_facts: false
-  connection: local
-  roles:
-  - role: fusor-guestbook-ansibleapp-openshift
-    playbook_debug: false
+- hosts: all
+  vars:
+    deployment_config_src: /opt/ansibleapp/main-deployment.json.j2
+    deployment_config_dest: /opt/ansibleapp/artifacts/main-deployment.json
+    artifacts_dir: /opt/ansibleapp/artifacts
+    _project_name: "{{project_name | default('fusor-guestbook-ansibleapp', true)}}"
+  tasks:
+    - name: Activate project
+      shell: "oc project {{_project_name}}"
+    - name: Render deployment config
+      template:
+        src: "{{deployment_config_src}}"
+        dest: "{{deployment_config_dest}}"
+        owner: ansibleapp
+        mode: '0666'
+    - name: Create resource
+      shell: "oc create -f {{artifacts_dir}} --namespace={{_project_name}}"

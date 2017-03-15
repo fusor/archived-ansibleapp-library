@@ -1,0 +1,20 @@
+{
+    "kind": "Route",
+    "spec": {
+        "to": {
+            "kind": "Service",
+            "name": "main"
+        },
+        "port": {
+            "targetPort": "port-1337"
+        }
+    },
+    "apiVersion": "v1",
+    "metadata": {
+        "labels": {
+            "app": "fusor-guestbook-ansibleapp",
+            "service": "main"
+        },
+        "name": "main-1337"
+    }
+}
