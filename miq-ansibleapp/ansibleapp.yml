@@ -28,7 +28,7 @@ parameters:
     description: Memcached Slab Size in bytes
     type: string
     default: 1M
-  - name: memcached_service_name 
+  - name: memcached_service_name
     description: Service name of the memcached instance to use
     type: string
     default: miq-memcached
@@ -36,7 +36,7 @@ parameters:
     description: Namespace to deploy the cluster to
     type: string
     default: miq-ansibleapp
-  - name: postgresql_database 
+  - name: postgresql_database
     description: postgresql database name
     type: string
     default: vmdb_production

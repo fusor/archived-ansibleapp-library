@@ -1,0 +1,25 @@
+{% if create_pvs == true %}
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: vlp
+spec:
+  capacity:
+    storage: 1Gi
+  accessModes:
+    - ReadWriteMany
+  hostPath:
+    path: "{{ pv_base_path }}/vlp"
+
+---
+{% endif %}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: vlp
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 1Gi

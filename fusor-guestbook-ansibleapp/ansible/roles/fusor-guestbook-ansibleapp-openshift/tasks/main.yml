@@ -1,7 +1,7 @@
 
 - oso_service:
     service_name: main
-    project_name: fusor-guestbook-ansibleapp
+    project_name: '{{project_name}}'
     labels:
       app: fusor-guestbook-ansibleapp
       service: main
@@ -18,7 +18,7 @@
   when: playbook_debug
 
 - oso_route:
-    project_name: fusor-guestbook-ansibleapp
+    project_name: '{{project_name}}'
     service_port: port-1337
     labels:
       app: fusor-guestbook-ansibleapp
@@ -33,7 +33,7 @@
   when: playbook_debug
 
 - oso_deployment:
-    project_name: fusor-guestbook-ansibleapp
+    project_name: '{{project_name}}'
     labels:
       app: fusor-guestbook-ansibleapp
       service: main
@@ -42,10 +42,9 @@
     - securityContext: {}
       name: main
       env:
+        BINDING_KEY: '{{binding_key}}'
         MONGO_DB: '{{mongo_db}}'
-        MONGO_HOST: '{{mongo_host}}'
         MONGO_PASS: '{{mongo_pass}}'
-        MONGO_PORT: '{{mongo_port}}'
         MONGO_USER: '{{mongo_user}}'
       args:
       - entrypoint.sh

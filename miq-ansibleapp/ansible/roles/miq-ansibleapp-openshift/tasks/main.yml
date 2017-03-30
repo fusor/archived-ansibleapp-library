@@ -1,186 +1,55 @@
-- name: oc login
+- name: login
   shell: "oc login {{ openshift_target }} -u '{{ openshift_user }}' -p '{{ openshift_pass }}' --insecure-skip-tls-verify=true"
+
+- name: check if namespace exists
+  shell: "oc get project --no-headers=true | awk '{ print $1}' | grep -w {{ namespace }} | cat"
+  register: project
+
+- name: create namespace if it does not
+  shell: "oc new-project {{ namespace }}"
+  when: project.stdout.find("{{ namespace }}") == -1
 
 - name: oadm policy add
   shell: "oadm policy add-scc-to-user privileged system:serviceaccount:{{ namespace }}:default"
 
-- oso_service:
-    service_name: miq-memcached
-    project_name: '{{ namespace }}'
-    labels:
-      app: miq-ansibleapp
-      service: miq-memcached
-    ports:
-    - name: port-11211
-      port: 11211
-      targetPort: 11211
-    selector:
-      app: miq-ansibleapp
-      service: miq-memcached
-  register: output
+- name: create app pvc
+  shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/miq-app-pvc.yml"
 
-- debug: var=output
-  when: playbook_debug
+- name: create postgresql pvc
+  shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/miq-postgresql-pvc.yml"
 
-- oso_service:
-    service_name: miq-app
-    project_name: '{{ namespace }}'
-    labels:
-      app: miq-ansibleapp
-      service: miq-app
-    ports:
-    - name: port-80
-      port: 80
-      targetPort: 80
-    - name: port-443
-      port: 443
-      targetPort: 443
-    selector:
-      app: miq-ansibleapp
-      service: miq-app
-  register: output
+- name: create app svc
+  shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/miq-app-svc.yml"
 
-- debug: var=output
-  when: playbook_debug
+- name: create memcached svc
+  shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/miq-memcached-svc.yml" 
 
-- name: oc create route
+- name: create postgresql svc
+  shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/miq-postgresql-svc.yml"
+
+- name: create app route
   shell: "oc create -n {{ namespace }} -f {{ role_path }}/files/miq-app-route.yml"
 
-- oso_service:
-    service_name: miq-postgresql
-    project_name: '{{ namespace }}'
-    labels:
-      app: miq-ansibleapp
-      service: miq-postgresql
-    ports:
-    - name: port-5432
-      port: 5432
-      targetPort: 5432
-    selector:
-      app: miq-ansibleapp
-      service: miq-postgresql
-  register: output
+- name: create miq-app dc resource template
+  template:
+    src: miq-app-dc.yml.j2
+    dest: /tmp/miq-app-dc.yml
 
-- debug: var=output
-  when: playbook_debug
+- name: create miq-memcached dc resource template
+  template:
+    src: miq-memcached-dc.yml.j2
+    dest: /tmp/miq-memcached-dc.yml
 
-- oso_deployment:
-    project_name: '{{ namespace }}'
-    labels:
-      app: miq-ansibleapp
-      service: miq-memcached
-    deployment_name: miq-memcached
-    containers:
-    - securityContext: {}
-      name: miq-memcached
-      env:
-        MEMCACHED_MAX_CONNECTIONS: '{{ memcached_max_connections }}'
-        MEMCACHED_MAX_MEMORY: '{{ memcached_max_memory }}'
-        MEMCACHED_SLAB_PAGE_SIZE: '{{ memcached_slab_page_size }}'
-      image: docker.io/manageiq/manageiq-pods:memcached-latest
-      ports:
-      - 11211
-      workingDir: /
-    replace: true
-  register: output
+- name: create miq-postgresql dc resource template
+  template:
+    src: miq-postgresql-dc.yml.j2
+    dest: /tmp/miq-postgresql-dc.yml
 
-- debug: var=output
-  when: playbook_debug
+- name: create app dc
+  shell: "oc create -n {{ namespace }} -f /tmp/miq-app-dc.yml"
 
-- oso_deployment:
-    project_name: '{{ namespace }}'
-    labels:
-      app: miq-ansibleapp
-      service: miq-app
-    deployment_name: miq-app
-    containers:
-    - securityContext:
-        privileged: true
-      name: miq-app
-      env:
-        APPLICATION_INIT_DELAY: '{{ application_init_delay }}'
-        DATABASE_REGION: '{{ database_region }}'
-        DATABASE_SERVICE_NAME: '{{ database_service_name }}'
-        MEMCACHED_SERVICE_NAME: '{{ memcached_service_name }}'
-        MIQ_MEMCACHED_PORT: '{{ miq_memcached_port }}'
-        MIQ_MEMCACHED_PORT_11211_TCP: '{{ miq_memcached_port_11211_tcp }}'
-        MIQ_MEMCACHED_PORT_11211_TCP_ADDR: '{{ miq_memcached_port_11211_tcp_addr }}'
-        MIQ_MEMCACHED_SERVICE_HOST: '{{ miq_memcached_service_host }}'
-        MIQ_POSTGRESQL_PORT: '{{ miq_postgresql_port }}'
-        MIQ_POSTGRESQL_PORT_5432_TCP: '{{ miq_postgresql_port_5432_tcp }}'
-        MIQ_POSTGRESQL_PORT_5432_TCP_ADDR: '{{ miq_postgresql_5432_tcp_addr }}'
-        MIQ_POSTGRESQL_SERVICE_HOST: '{{ miq_postgresql_service_host }}'
-        POSTGRESQL_DATABASE: '{{ postgresql_database }}'
-        POSTGRESQL_PASSWORD: '{{ postgresql_password }}'
-        POSTGRESQL_USER: '{{ postgresql_user }}'
-      workingDir: /
-      volumeMounts:
-      - mountPath: /persistent
-        name: miq-app
-        readOnly: false
-      image: docker.io/manageiq/manageiq-pods:app-latest
-      ports:
-      - 80
-      - 443
-    replace: true
-    volumes:
-    - name: miq-app
-      persistentVolumeClaim:
-        claimName: miq-app
-  register: output
+- name: create memcached dc
+  shell: "oc create -n {{ namespace }} -f /tmp/miq-memcached-dc.yml" 
 
-- debug: var=output
-  when: playbook_debug
-
-- oso_deployment:
-    project_name: '{{ namespace }}'
-    labels:
-      app: miq-ansibleapp
-      service: miq-postgresql
-    deployment_name: miq-postgresql
-    containers:
-    - securityContext: {}
-      name: miq-postgresql
-      env:
-        POSTGRESQL_DATABASE: '{{ postgresql_database }}'
-        POSTGRESQL_PASSWORD: '{{ postgresql_password }}'
-        POSTGRESQL_USER: '{{ postgresql_user }}'
-      workingDir: /
-      volumeMounts:
-      - mountPath: /var/lib/pgsql/data
-        name: miq-postgresql
-        readOnly: false
-      image: docker.io/manageiq/manageiq-pods:postgresql-latest
-      ports:
-      - 5432
-    replace: true
-    volumes:
-    - name: miq-postgresql
-      persistentVolumeClaim:
-        claimName: miq-postgresql
-  register: output
-
-- debug: var=output
-  when: playbook_debug
-
-- oso_pvc:
-    state: present
-    project_name: '{{ namespace }}'
-    name: miq-app
-    access_modes:
-    - ReadWriteOnce
-  register: output
-
-- debug: var=output
-  when: playbook_debug
-
-- oso_pvc:
-    state: present
-    project_name: '{{ namespace }}'
-    name: miq-postgresql
-    access_modes:
-    - ReadWriteOnce
-  register: output
-
-- debug: var=output
-  when: playbook_debug
+- name: create postgresql dc
+  shell: "oc create -n {{ namespace }} -f /tmp/miq-postgresql-dc.yml"

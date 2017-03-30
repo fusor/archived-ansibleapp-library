@@ -1,0 +1,61 @@
+{
+    "kind": "DeploymentConfig",
+    "spec": {
+        "strategy": {
+            "type": "Rolling"
+        },
+        "replicas": 1,
+        "template": {
+            "spec": {
+                "containers": [
+                    {
+                        "securityContext": {},
+                        "name": "main",
+                        "env": [
+                            {
+                                "name": "BINDING_KEY",
+                                "value": "{{binding_key}}"
+                            },
+                            {
+                                "name": "MONGO_DB",
+                                "value": "{{mongo_db}}"
+                            },
+                            {
+                                "name": "MONGO_USER",
+                                "value": "{{mongo_user}}"
+                            },
+                            {
+                                "name": "MONGO_PASS",
+                                "value": "{{mongo_pass}}"
+                            }
+                        ],
+                        "args": [
+                            "entrypoint.sh"
+                        ],
+                        "image": "docker.io/ansibleapp/fusor-guestbook-ansibleapp-main:latest",
+                        "ports": [
+                            {
+                                "containerPort": 1337
+                            }
+                        ]
+                    }
+                ]
+            },
+            "metadata": {
+                "labels": {
+                    "app": "fusor-guestbook-ansibleapp",
+                    "service": "main"
+                }
+            }
+        },
+        "selector": {}
+    },
+    "apiVersion": "v1",
+    "metadata": {
+        "labels": {
+            "app": "fusor-guestbook-ansibleapp",
+            "service": "main"
+        },
+        "name": "main"
+    }
+}

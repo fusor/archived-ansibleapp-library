@@ -1,0 +1,24 @@
+---
+kind: "Service"
+apiVersion: "v1"
+metadata:
+  name: {{binding_key}}
+spec:
+  ports:
+    - name: {{binding_key}}
+      protocol: "TCP"
+      port: {{port}}
+      targetPort: {{port}}
+      nodePort: 0
+selector: {}
+---
+kind: "Endpoints"
+apiVersion: "v1"
+metadata:
+  name: {{binding_key}}
+subsets:
+- addresses:
+  - ip: {{ip}}
+  ports:
+  - name: {{binding_key}}
+    port: {{port}}

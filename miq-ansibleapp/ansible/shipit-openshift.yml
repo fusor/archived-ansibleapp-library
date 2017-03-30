@@ -1,7 +1,0 @@
-- name: Deploy miq-ansibleapp to  openshift
-  hosts: localhost
-  gather_facts: false
-  connection: local
-  roles:
-  - role: miq-ansibleapp-openshift
-    playbook_debug: false
