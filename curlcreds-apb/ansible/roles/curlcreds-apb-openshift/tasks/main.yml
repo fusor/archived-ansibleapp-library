@@ -1,0 +1,10 @@
+- name: retrieve mock credentials
+  shell: "curl {{ url }}"
+  register: credentials
+
+- name: encode credentials
+  shell: 'echo "{{ credentials.stdout }}" | base64 -w 0'
+  register: encoded_bind_credentials
+
+- debug:
+    msg: "<BIND_CREDENTIALS>{{ encoded_bind_credentials.stdout }}</BIND_CREDENTIALS>"
