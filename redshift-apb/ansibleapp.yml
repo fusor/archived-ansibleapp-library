@@ -1,0 +1,15 @@
+id: 9ce41143-1c76-4fc1-9828-4fbe2648ee24
+name: redshift-apb
+image: ansibleplaybookbundle/redshift-apb
+description: Fast, simple, cost-effective data warehousing.
+bindable: true
+async: optional
+parameters: {}
+metadata:
+  displayName: "Amazon Redshift"
+  longDescription: "Amazon Redshift is a fast, fully managed, petabyte-scale data warehouse that makes it simple and cost-effective to analyze all your data using your existing business intelligence tools. Start small for $0.25 per hour with no commitments and scale to petabytes for $1,000 per terabyte per year, less than a tenth the cost of traditional solutions. Customers typically see 3x compression, reducing their costs to $333 per uncompressed terabyte per year."
+  imageUrl: "https://s3.amazonaws.com/fusor/2017demo/Database_AmazonRedshift.png"
+  tags:
+    - Amazon
+    - Database
+  documentationUrl: "https://aws.amazon.com/redshift/"

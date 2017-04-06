@@ -1,0 +1,17 @@
+id: 9e8772a5-73ac-4cab-a089-a167a0d972a5
+name: route53-apb
+image: ansibleplaybookbundle/route53-apb
+description: Highly available and scalable cloud Domain Name System (DNS) web service.
+bindable: true
+async: optional
+parameters: {}
+metadata:
+  displayName: "Amazon Route53"
+  longDescription: "Amazon Route 53 is a highly available and scalable cloud Domain Name System (DNS) web service. It is designed to give developers and businesses an extremely reliable and cost effective way to route end users to Internet applications by translating names like www.example.com into the numeric IP addresses like 192.0.2.1 that computers use to connect to each other. Amazon Route 53 is fully compliant with IPv6 as well."
+  imageUrl: "https://s3.amazonaws.com/fusor/2017demo/NetworkingContentDelivery_AmazonRoute53.png"
+  tags:
+    - Amazon
+    - Networking
+    - Content Delivery
+  documentationUrl: "https://aws.amazon.com/route53/"
+

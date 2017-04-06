@@ -1,0 +1,17 @@
+id: 4daf53ae-460d-4319-8698-212743a1a330
+name: elb-apb
+image: ansibleplaybookbundle/elb-apb
+description: Elastic Load Balancing
+bindable: true
+async: optional
+parameters: {}
+metadata:
+  displayName: "Amazon ELB"
+  longDescription: "Elastic Load Balancing automatically distributes incoming application traffic across multiple Amazon EC2 instances. It enables you to achieve fault tolerance in your applications, seamlessly providing the required amount of load balancing capacity needed to route application traffic. Elastic Load Balancing offers two types of load balancers that both feature high availability, automatic scaling, and robust security. These include the Classic Load Balancer that routes traffic based on either application or network level information, and the Application Load Balancer that routes traffic based on advanced application level information that includes the content of the request. The Classic Load Balancer is ideal for simple load balancing of traffic across multiple EC2 instances, while the Application Load Balancer is ideal for applications needing advanced routing capabilities, microservices, and container-based architectures. Application Load Balancer offers ability to route traffic to multiple services or load balance across multiple ports on the same EC2 instance."
+  imageUrl: "https://s3.amazonaws.com/fusor/2017demo/NetworkingContentDelivery_ElasticLoadBalancing.png"
+  tags:
+    - Amazon
+    - Neteworking
+    - Content Delivery
+  documentationUrl: "https://aws.amazon.com/elasticloadbalancing/"
+

@@ -1,0 +1,26 @@
+FROM ansibleapp/ansibleapp-base
+# MAINTAINER {{ $MAINTAINER }}
+
+LABEL "com.redhat.ansibleapp.version"="0.1.0"
+LABEL "com.redhat.ansibleapp.spec"=\
+"aWQ6IDdmMzE3MDk0LTQ1YjctNDdkZS05OWNiLWE4OTczODQwZjRmMwpuYW1lOiBjbG91ZGZyb250\
+LWFwYgppbWFnZTogYW5zaWJsZXBsYXlib29rYnVuZGxlL2Nsb3VkZnJvbnQtYXBiCmRlc2NyaXB0\
+aW9uOiBDb250ZW50IERlbGl2ZXJ5IE5ldHdvcmsgKENETikKYmluZGFibGU6IHRydWUKYXN5bmM6\
+IG9wdGlvbmFsCnBhcmFtZXRlcnM6IHt9Cm1ldGFkYXRhOgogIGRpc3BsYXlOYW1lOiAiQW1hem9u\
+IENsb3VkRnJvbnQiCiAgbG9uZ0Rlc2NyaXB0aW9uOiAiQW1hem9uIENsb3VkRnJvbnQgaXMgYSBn\
+bG9iYWwgY29udGVudCBkZWxpdmVyeSBuZXR3b3JrIChDRE4pIHNlcnZpY2UgdGhhdCBhY2NlbGVy\
+YXRlcyBkZWxpdmVyeSBvZiB5b3VyIHdlYnNpdGVzLCBBUElzLCB2aWRlbyBjb250ZW50IG9yIG90\
+aGVyIHdlYiBhc3NldHMuIEl0IGludGVncmF0ZXMgd2l0aCBvdGhlciBBbWF6b24gV2ViIFNlcnZp\
+Y2VzIHByb2R1Y3RzIHRvIGdpdmUgZGV2ZWxvcGVycyBhbmQgYnVzaW5lc3NlcyBhbiBlYXN5IHdh\
+eSB0byBhY2NlbGVyYXRlIGNvbnRlbnQgdG8gZW5kIHVzZXJzIHdpdGggbm8gbWluaW11bSB1c2Fn\
+ZSBjb21taXRtZW50cy4iCiAgaW1hZ2VVcmw6ICJodHRwczovL3MzLmFtYXpvbmF3cy5jb20vZnVz\
+b3IvMjAxN2RlbW8vTmV0d29ya2luZ0NvbnRlbnREZWxpdmVyeV9BbWF6b25DbG91ZEZyb250LnBu\
+ZyIKICB0YWdzOgogICAgLSBBbWF6b24KICAgIC0gTmV0d29ya2luZwogICAgLSBDb250ZW50IERl\
+bGl2ZXJ5CiAgZG9jdW1lbnRhdGlvblVybDogImh0dHBzOi8vYXdzLmFtYXpvbi5jb20vY2xvdWRm\
+cm9udC8iCg=="
+ADD ansible /opt/ansible
+ADD ansibleapp /opt/ansibleapp
+
+RUN useradd -u 1001 -r -g 0 -M -b /opt/ansibleapp -s /sbin/nologin -c "ansibleapp user" ansibleapp
+RUN chown -R 1001:0 /opt/{ansible,ansibleapp}
+USER 1001

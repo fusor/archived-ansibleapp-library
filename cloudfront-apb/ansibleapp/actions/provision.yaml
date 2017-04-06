@@ -1,0 +1,7 @@
+- name: cloudfront
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  roles:
+  - role: cloudfront-apb-openshift
+    playbook_debug: false
