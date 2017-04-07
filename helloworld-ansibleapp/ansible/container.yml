@@ -1,0 +1,14 @@
+version: "2"
+services:
+    web:
+        image: centos:7
+        ports: 
+            - "8080:8080"
+        expose:
+            - 8080
+        user: nginx
+        command: ['/usr/sbin/nginx','-c','/opt/app-root/etc/nginx.conf']
+        entrypoint: ['/usr/bin/entrypoint']
+        environment:
+            - "MESSAGE={{ '{{ message }}' }}"
+registries: {}

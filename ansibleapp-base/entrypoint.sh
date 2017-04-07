@@ -1,7 +1,12 @@
 #!/bin/bash
 ANSIBLEAPP_ACTION=$1
+USER_ID=$(id -u)
 shift
 playbooks=/opt/ansibleapp/actions
+
+if [ ${USER_UID} != ${USER_ID} ]; then
+sed "s@${USER_NAME}:x:\${USER_ID}:@${USER_NAME}:x:${USER_ID}:@g" ${APP_ROOT}/etc/passwd.template > /etc/passwd
+fi
 
 oc-login.sh
 

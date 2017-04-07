@@ -1,0 +1,105 @@
+---
+- hosts: web 
+  gather_facts: false
+  vars_files:
+      - vars.yml
+  tasks:
+
+# ----------------------------
+# Install Packages
+# ----------------------------
+
+    - name: Install EPEL 
+      yum:
+        name: epel-release 
+        state: present
+
+    - name: Install nginx 
+      yum:
+        name: "{{ item }}" 
+        state: present
+      with_items:
+        - nginx
+        - sudo
+
+
+# ----------------------------
+# Create User
+# ----------------------------
+# Generic user that will be used when running
+# this container 
+# ----------------------------
+
+    - name: Create User
+      user:
+        name: "{{ username }}"
+        uid: "{{ uid }}"
+        group: root
+        shell: /sbin/nologin
+        createhome: False
+        home: "{{ app_root }}"
+        system: True
+
+
+# ----------------------------
+# Nginx and docker logging 
+# ----------------------------
+# This is pattern is used in the offical
+# nginx docker image
+# ----------------------------
+
+    - name: Create symbolic link
+      file: 
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+        force: True
+      with_items:
+        - { src: "/dev/stdout", dest: "/var/log/nginx/access.log" }
+        - { src: "/dev/stderr", dest: "/var/log/nginx/error.log" }
+
+    - name: Create Directories
+      file:
+        dest: "{{ item.dest }}"
+        state: directory
+        recurse: True
+        owner: "{{ username }}"
+        group: root
+        mode: "{{ item.mode }}"
+      with_items:
+        - { dest: "{{ app_root }}", mode: "g+rw" }
+        - { dest: "{{ app_root }}/bin", mode: "ug+x" }
+        - { dest: "{{ app_root }}/src", mode: "g+rw" }
+        - { dest: "{{ app_root }}/etc", mode: "g+rw" }
+        - { dest: "{{ app_root }}/html", mode: "g+rw" }
+        - { dest: "/.ansible", mode: "g+rw" }
+        - { dest: "/var/lib/nginx", mode: "ug+rwx" }
+        - { dest: "/var/log/nginx", mode: "ug+rwx" }
+        - { dest: "/run", mode: "ug+rw" }
+
+    - name: Create Image Entrypoint
+      template:
+        src: templates/entrypoint.j2
+        dest: /usr/bin/entrypoint
+        owner: "{{ username }}"
+        group: root
+        mode: "ug+x"
+
+    - name: Create nginx Configuration 
+      template:
+        src: templates/nginx.conf.j2
+        dest: "{{ app_root }}/etc/nginx.conf"
+        owner: "{{ username }}"
+        group: root
+        mode: "g+rw"
+
+    - name: Allow root group permissions to /etc/passwd
+      file:
+        dest: "/etc/passwd"
+        state: file
+        mode: "g+w"
+
+    - name: Create passwd template
+      shell: 'sed "s@{{ username }}:x:{{ uid }}:@{{ username }}:x:\${USER_ID}:@g" /etc/passwd > {{ app_root }}/etc/passwd.template'
+      become: True
+      become_user: "{{ username }}"
