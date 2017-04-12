@@ -1,0 +1,7 @@
+- name: redshift
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  roles:
+  - role: redshift-apb-openshift
+    playbook_debug: false
