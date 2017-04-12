@@ -2,6 +2,10 @@ id: 7f317094-45b7-47de-99cb-a8973840f4f3
 name: cloudfront-apb
 image: ansibleplaybookbundle/cloudfront-apb
 description: Content Delivery Network (CDN)
+tags:
+  - amazon
+  - networking
+  - content-delivery
 bindable: true
 async: optional
 parameters: {}
@@ -9,8 +13,4 @@ metadata:
   displayName: "Amazon CloudFront"
   longDescription: "Amazon CloudFront is a global content delivery network (CDN) service that accelerates delivery of your websites, APIs, video content or other web assets. It integrates with other Amazon Web Services products to give developers and businesses an easy way to accelerate content to end users with no minimum usage commitments."
   imageUrl: "https://s3.amazonaws.com/fusor/2017demo/NetworkingContentDelivery_AmazonCloudFront.png"
-  tags:
-    - Amazon
-    - Networking
-    - Content Delivery
   documentationUrl: "https://aws.amazon.com/cloudfront/"

@@ -2,6 +2,9 @@ id: 0aaafc10-132b-41a8-a58c-73268ff1006a
 name: rds-demo-postgres-apb
 image: ansibleplaybookbundle/rds-demo-postgres-apb
 description: Managed relational database service with a choice of six popular database engines.  Set up, operate, and scale a relational database in the cloud with just a few clicks. 
+tags:
+  - amazon
+  - database
 bindable: true
 async: optional
 parameters:
@@ -73,7 +76,4 @@ metadata:
   displayName: "Amazon RDS - PostgreSQL"
   longDescription: "Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate, and scale a relational database in the cloud. It provides cost-efficient and resizable capacity while managing time-consuming database administration tasks, freeing you up to focus on your applications and business. Amazon RDS provides you six familiar database engines to choose from, including Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle, and Microsoft SQL Server."
   imageUrl: "https://s3.amazonaws.com/fusor/2017demo/Database_AmazonRDS_PostgreSQLinstance.png"
-  tags:
-    - Amazon
-    - Database
   documentationUrl: "https://aws.amazon.com/rds/"
