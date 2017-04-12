@@ -2,6 +2,9 @@ id: 334c6ee4-ed6a-4520-9c1b-b068d8d4a7a7
 name: rds-aurora-apb
 image: ansibleplaybookbundle/rds-aurora-apb
 description: Managed relational database service with a choice of six popular database engines.  Set up, operate, and scale a relational database in the cloud with just a few clicks.
+tags:
+  - amazon
+  - database
 bindable: true
 async: optional
 parameters: {}
@@ -9,8 +12,5 @@ metadata:
   displayName: "Amazon RDS - Aurora"
   longDescription: "Amazon Relational Database Service (Amazon RDS) makes it easy to set up, operate, and scale a relational database in the cloud. It provides cost-efficient and resizable capacity while managing time-consuming database administration tasks, freeing you up to focus on your applications and business. Amazon RDS provides you six familiar database engines to choose from, including Amazon Aurora, PostgreSQL, MySQL, MariaDB, Oracle, and Microsoft SQL Server."
   imageUrl: "https://s3.amazonaws.com/fusor/2017demo/Database_AmazonRDS.png"
-  tags:
-    - Amazon
-    - Database
   documentationUrl: "https://aws.amazon.com/rds/"
 
