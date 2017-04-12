@@ -2,6 +2,9 @@ id: c9f8f8e1-81ff-4825-ae26-94fb12696f20
 name: emr-apb
 image: ansibleplaybookbundle/emr-apb
 description: Easily Run and Scale Apache Hadoop, Spark, HBase, Presto, Hive, and other Big Data Frameworks
+tags:
+  - amazon
+  - analytics
 bindable: true
 async: optional
 parameters: {}
@@ -9,7 +12,4 @@ metadata:
   displayName: "Amazon EMR"
   longDescription: "Amazon EMR provides a managed Hadoop framework that makes it easy, fast, and cost-effective to process vast amounts of data across dynamically scalable Amazon EC2 instances. You can also run other popular distributed frameworks such as Apache Spark, HBase, Presto, and Flink in Amazon EMR, and interact with data in other AWS data stores such as Amazon S3 and Amazon DynamoDB."
   imageUrl: "https://s3.amazonaws.com/fusor/2017demo/Analytics_AmazonEMR.png"
-  tags:
-    - Amazon
-    - Analytics
   documentationUrl: "https://aws.amazon.com/emr/"
