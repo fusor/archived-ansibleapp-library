@@ -30,7 +30,13 @@
   register: rds_endpoint_ip
 
 - name: seed database
-  shell: "PGPASSWORD={{ db_password }} psql -U {{ db_username }} -d {{ db_name }} -p {{ port }} -h {{ rds_endpoint_ip.stdout }} -f {{ role_path }}/files/parkcoord.sql"
+  shell: "PGPASSWORD={{ db_password }} psql -U {{ db_username }} -d {{ db_name }} -p {{ port }} -h {{ rds_endpoint_ip.stdout }} -f {{ role_path }}/files/{{ item }}"
+  with_items:
+    - parkcoord.sql
+    - airports.ddl
+    - zipcodes.ddl
+    - airports.sql
+    - zipcodes.sql
 
 - name: openshift login
   shell: "oc login {{ openshift_target }} -u '{{ openshift_user }}' -p '{{ openshift_pass }}' --insecure-skip-tls-verify=true"
