@@ -1,7 +1,7 @@
 id: 0aaafc10-132b-41a8-a58c-73268ff1006a
 name: rds-postgres-apb
 image: ansibleplaybookbundle/rds-postgres-apb
-description: Managed relational database service with a choice of six popular database engines.  Set up, operate, and scale a relational database in the cloud with just a few clicks. 
+description: Managed relational database service with a choice of six popular database engines.  Set up, operate, and scale a relational database in the cloud with just a few clicks.
 tags:
   - amazon
   - database
@@ -49,7 +49,6 @@ parameters:
   - name: namespace
     description: Namespace to deploy the cluster to
     type: string
-    default: foreman-ansibleapp
   - name: openshift_target
     description: target openshift hosts url
     type: string
