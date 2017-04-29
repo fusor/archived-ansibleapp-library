@@ -1,0 +1,8 @@
+- name: Deploy curlcreds-apb to openshift
+  hosts: localhost
+  gather_facts: true
+  connection: local
+  roles:
+  - role: curlcreds-apb-openshift
+    playbook_debug: false
+

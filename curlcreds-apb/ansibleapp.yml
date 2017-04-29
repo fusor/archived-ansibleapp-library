@@ -1,0 +1,9 @@
+id: 84e8173e-5ced-4489-9b4d-aac7e779c47e
+name: ansibleplaybookbundle/curlcreds-apb
+description: curl mock credentials from a url and return them
+bindable: true
+async: optional
+parameters:
+  - name: url 
+    description: url to pull mock credentials from
+    type: string
