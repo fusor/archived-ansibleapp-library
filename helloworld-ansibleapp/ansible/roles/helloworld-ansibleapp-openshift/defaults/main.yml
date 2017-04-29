@@ -1,0 +1,4 @@
+---
+# defaults for helloworld-ansibleapp-openshift
+
+playbook_debug: no

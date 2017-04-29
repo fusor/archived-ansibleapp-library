@@ -1,0 +1,69 @@
+---
+
+- name: Create Project 
+  command: oc new-project helloworld-ansibleapp
+  ignore_errors: True
+
+- name: Select Project
+  command: oc project helloworld-ansibleapp
+
+- oso_service:
+    service_name: web
+    project_name: helloworld-ansibleapp
+    labels:
+      app: helloworld-ansibleapp
+      service: web
+    ports:
+    - name: port-8080
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: helloworld-ansibleapp
+      service: web
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_route:
+    project_name: helloworld-ansibleapp
+    service_port: port-8080
+    labels:
+      app: helloworld-ansibleapp
+      service: web
+    route_name: web-8080
+    replace: true
+    service_name: web
+    state: present
+  register: output
+
+- debug: var=output
+  when: playbook_debug
+
+- oso_deployment:
+    project_name: helloworld-ansibleapp
+    labels:
+      app: helloworld-ansibleapp
+      service: web
+    deployment_name: web
+    containers:
+    - securityContext: {}
+      name: web
+      env:
+        MESSAGE: '{{ message }}'
+      args:
+      - /usr/sbin/nginx
+      - -c
+      - /opt/app-root/etc/nginx.conf
+      command:
+      - /usr/bin/entrypoint
+      image: ansibleapp/helloworld-ansibleapp-web:latest
+      ports:
+      - containerPort: 8080
+        protocol: TCP
+    replace: true
+  register: output
+
+- debug: var=output
+  when: playbook_debug

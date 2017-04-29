@@ -1,0 +1,9 @@
+id: 35ead4e8-cf1f-4909-bb1b-b981f4eb3142
+name: ansibleapp/helloworld-ansibleapp
+description: Hello World nginx 
+bindable: false
+async: "unsupported"
+parameters:
+  - name: message 
+    description: say something to nginx 
+    type: string

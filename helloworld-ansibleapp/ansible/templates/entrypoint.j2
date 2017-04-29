@@ -1,0 +1,11 @@
+#!/bin/sh
+
+set +x 
+USER_ID=$(id -u)
+if [ {{ uid }} != ${USER_ID} ]; then
+sed "s@{{ username }}:x:\${USER_ID}:@{{ username }}:x:${USER_ID}:@g" {{ app_root }}/etc/passwd.template > /etc/passwd
+fi
+
+echo "${MESSAGE}" > {{ app_root }}/html/index.html
+
+exec "$@"

@@ -1,0 +1,5 @@
+---
+app_root: "/opt/app-root"
+username: "nginx"
+uid: "10001"
+
