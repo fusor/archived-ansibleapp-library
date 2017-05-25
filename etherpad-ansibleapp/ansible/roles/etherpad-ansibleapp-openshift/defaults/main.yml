@@ -1,4 +1,0 @@
----
-# defaults for etherpad-ansibleapp-openshift
-
-playbook_debug: no

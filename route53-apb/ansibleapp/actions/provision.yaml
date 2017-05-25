@@ -1,7 +1,0 @@
-- name: route53
-  hosts: localhost
-  gather_facts: true
-  connection: local
-  roles:
-  - role: route53-apb-openshift
-    playbook_debug: false

@@ -1,4 +1,0 @@
----
-# defaults for elk-ansibleapp-openshift
-
-playbook_debug: no

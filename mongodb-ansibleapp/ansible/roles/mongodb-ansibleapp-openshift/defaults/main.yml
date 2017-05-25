@@ -1,7 +1,0 @@
----
-# defaults for mongodb-ansibleapp-openshift
-
-playbook_debug: no
-database_pass: "{{ lookup('env','DATABASE_PASS') | default('admin', true) }}"
-database_user: "{{ lookup('env','DATABASE_USER') | default('admin', true) }}"
-namespace: "{{ lookup('env','NAMESPACE') | default('mongodb-ansibleapp', true) }}"

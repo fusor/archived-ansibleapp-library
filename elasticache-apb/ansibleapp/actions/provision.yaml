@@ -1,7 +1,0 @@
-- name: elasticache
-  hosts: localhost
-  gather_facts: true
-  connection: local
-  roles:
-  - role: elasticache-apb-openshift
-    playbook_debug: false

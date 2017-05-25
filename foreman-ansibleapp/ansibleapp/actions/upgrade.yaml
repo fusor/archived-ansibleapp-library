@@ -1,7 +1,0 @@
-- name: Deploy foreman-ansibleapp to openshift
-  hosts: localhost
-  gather_facts: false
-  connection: local
-  roles:
-  - role: foreman-ansibleapp-openshift-upgrade
-    playbook_debug: false

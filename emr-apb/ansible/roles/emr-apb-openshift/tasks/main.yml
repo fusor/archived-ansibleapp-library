@@ -1,3 +1,0 @@
-#Do work. Output credentials
-- debug:
-    msg: "<BIND_CREDENTIALS>{{ encoded_bind_credentials.stdout }}</BIND_CREDENTIALS>"
