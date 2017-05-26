@@ -1,7 +1,0 @@
-- name: Deploy wordpress-ansibleapp to  openshift
-  hosts: localhost
-  gather_facts: false
-  connection: local
-  roles:
-  - role: wordpress-ansibleapp-openshift
-    playbook_debug: false

@@ -1,4 +1,0 @@
----
-# defaults for fusor-guestbook-ansibleapp-openshift
-
-playbook_debug: no

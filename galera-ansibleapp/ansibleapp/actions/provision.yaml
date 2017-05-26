@@ -1,7 +1,0 @@
-- name: Deploy galera-ansibleapp to  openshift
-  hosts: localhost
-  gather_facts: false
-  connection: local
-  roles:
-  - role: galera-ansibleapp-openshift
-    playbook_debug: false

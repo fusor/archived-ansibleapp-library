@@ -1,7 +1,0 @@
-- name: elb
-  hosts: localhost
-  gather_facts: true
-  connection: local
-  roles:
-  - role: elb-apb-openshift
-    playbook_debug: false

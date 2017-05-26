@@ -1,7 +1,0 @@
-- name: rds
-  hosts: localhost
-  gather_facts: true
-  connection: local
-  roles:
-  - role: rds-mysql-apb-openshift
-    playbook_debug: false
